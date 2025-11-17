@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AURA — Data Prestasi (Input)</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Root colors and variables */
+      :root {
+        --bg: #ffffff;
+        --panel: #fafafa;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --muted: #a6a8a7;
+        --text-dark: #58585a;
+        --text-light: #667085;
+        --border: #eaecf0;
+        --border-light: #cfd3d4;
+        --label-color: #5e6366;
+      }
+
+      /* Global reset and defaults */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Poppins", "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text-dark);
+      }
+
+      /* Page layout */
+      .page-container {
+        width: 100%;
+        position: relative;
+        background: var(--bg);
+        display: flex;
+      }
+
+      /* ===== SIDEBAR ===== */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 296px;
+        height: 100vh;
+        background: var(--panel);
+        padding: 32px 24px;
+        overflow-y: auto;
+      }
+      .brand {
+        display: block;
+        width: 109px;
+        height: 66px;
+        margin: 0 auto 64px;
+      }
+      .menu-section {
+        margin-bottom: 32px;
+      }
+      .menu-section-title {
+        color: #b11216;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+      }
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 8px;
+        margin: 8px 0;
+        color: var(--muted);
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.2s;
+        text-decoration: none;
+      }
+      .nav-item.active {
+        color: var(--accent);
+        font-weight: 500;
+      }
+      .nav-item.active::before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(
+          180deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        border-radius: 2px;
+        margin-left: -8px;
+        margin-right: 4px;
+      }
+      .nav-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      /* ===== MAIN CONTENT ===== */
+      .main-wrapper {
+        margin-left: 296px;
+        flex: 1;
+        padding: 32px 40px;
+        background: var(--bg);
+      }
+
+      /* Content Card */
+      .content-card {
+        background: white;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      /* Page header */
+      .page-header {
+        margin-bottom: 24px;
+      }
+      .page-header h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+      }
+      .page-header p {
+        font-size: 16px;
+        color: var(--text-dark);
+      }
+
+      /* Tab navigation */
+      .tab-navigation {
+        display: flex;
+        gap: 0;
+        margin-bottom: 32px;
+      }
+      .tab-btn {
+        padding: 12px 24px;
+        background: white;
+        border: none;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-light);
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: block;
+      }
+      .tab-btn.active {
+        background: var(--accent);
+        color: white;
+      }
+      .tab-btn:first-child {
+        border-top-left-radius: 8px;
+      }
+      .tab-btn:last-child {
+        border-top-right-radius: 8px;
+      }
+
+      /* Form sections */
+      .form-section {
+        margin-bottom: 32px;
+      }
+      .form-section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 16px;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+      .form-label {
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--label-color);
+        font-family: "Inter", sans-serif;
+      }
+      .form-input,
+      .form-select,
+      .form-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border-light);
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+        color: var(--text-dark);
+        background: white;
+        transition: border-color 0.2s;
+      }
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .form-input:disabled {
+        background: #f5f5f5;
+        color: var(--muted);
+        cursor: not-allowed;
+      }
+      .form-textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .form-input::placeholder,
+      .form-select::placeholder,
+      .form-textarea::placeholder {
+        color: var(--muted);
+      }
+
+      /* File upload area */
+      .upload-area {
+        width: 100%;
+        min-height: 163px;
+        background: var(--panel);
+        border: 2px dashed var(--border-light);
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 24px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .upload-area:hover {
+        border-color: var(--accent);
+        background: #fff5f5;
+      }
+      .upload-icon {
+        width: 48px;
+        height: 48px;
+        background-color: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+      }
+      .upload-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .upload-text {
+        font-size: 14px;
+        color: var(--text-dark);
+        text-align: center;
+      }
+      .upload-text strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* Form actions */
+      .form-actions {
+        display: flex;
+        gap: 16px;
+        margin-top: 32px;
+      }
+      .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+      }
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        color: white;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(236, 29, 37, 0.3);
+      }
+      .btn-secondary {
+        background: white;
+        color: var(--accent);
+        border: 2px solid var(--accent);
+      }
+      .btn-secondary:hover {
+        background: #fff5f5;
+      }
+      .btn-icon {
+        width: 20px;
+        height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <img class="brand" src="../png/Aura_logo.png" alt="Aura Logo" />
+
+        <div class="menu-section">
+          <div class="menu-section-title">Menu</div>
+          <a href="homepage.html" class="nav-item">
+            <img src="../png/dashboard.png" alt="" class="nav-icon" />
+            Dashboard
+          </a>
+          <a href="dataprestasi_rm.html" class="nav-item active">
+            <img src="../png/dataprestasi_red.png" alt="" class="nav-icon" />
+            Data Prestasi
+          </a>
+          <a href="profilprestasi.html" class="nav-item">
+            <img src="../png/profilprestasi.png" alt="" class="nav-icon" />
+            Profil Prestasi
+          </a>
+        </div>
+
+        <div class="menu-section">
+          <div class="menu-section-title">Umum</div>
+          <div class="nav-item">
+            <img src="../png/profilakun.png" alt="" class="nav-icon" />
+            Profil Akun
+          </div>
+          <div class="nav-item">
+            <img src="../png/keluar.png" alt="" class="nav-icon" />
+            Keluar
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-wrapper">
+        <div class="content-card">
+          <!-- Page Header -->
+          <div class="page-header">
+            <h1>Data Prestasi</h1>
+            <p>
+              Selamat datang di pusat informasi dan analitik prestasi mahasiswa.
+            </p>
+          </div>
+
+          <!-- Tab Navigation -->
+          <div class="tab-navigation">
+            <a href="dataprestasi_rm.html" class="tab-btn">Riwayat Masukan</a>
+            <a href="dataprestasi_md.html" class="tab-btn active"
+              >Masukan Data</a
+            >
+          </div>
+
+          <!-- Input Form -->
+          <form>
+            <!-- Section 1: Informasi Mahasiswa -->
+            <div class="form-section">
+              <h2 class="form-section-title">Informasi Mahasiswa</h2>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="nama">Nama</label>
+                  <input
+                    type="text"
+                    id="nama"
+                    class="form-input"
+                    value="Alexa Adriana"
+                    disabled
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="nim">NIM</label>
+                  <input
+                    type="text"
+                    id="nim"
+                    class="form-input"
+                    value="1301223019"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 2: Tanggal Kegiatan -->
+            <div class="form-section">
+              <h2 class="form-section-title">Tanggal Kegiatan</h2>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="tahun-ajaran"
+                    >Tahun Ajaran</label
+                  >
+                  <select id="tahun-ajaran" class="form-select" required>
+                    <option value="">Pilih tahun akademik</option>
+                    <option value="2024/2025">2024/2025</option>
+                    <option value="2023/2024">2023/2024</option>
+                    <option value="2022/2023">2022/2023</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="tanggal-kegiatan"
+                    >Tanggal Kegiatan</label
+                  >
+                  <input
+                    type="date"
+                    id="tanggal-kegiatan"
+                    class="form-input"
+                    placeholder="dd/mm/yyyy"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 3: Informasi Prestasi -->
+            <div class="form-section">
+              <h2 class="form-section-title">Informasi Prestasi</h2>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="jenis-kategori"
+                    >Jenis Kategori</label
+                  >
+                  <select id="jenis-kategori" class="form-select" required>
+                    <option value="">Pilih jenis kategori</option>
+                    <option value="akademik">Akademik</option>
+                    <option value="non-akademik">Non-Akademik</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="jenis-kegiatan"
+                    >Jenis Kegiatan</label
+                  >
+                  <select id="jenis-kegiatan" class="form-select" required>
+                    <option value="">Pilih jenis kegiatan</option>
+                    <option value="kompetisi">Kompetisi</option>
+                    <option value="lomba">Lomba</option>
+                    <option value="seminar">Seminar</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="tingkat-kegiatan"
+                    >Tingkat Kegiatan</label
+                  >
+                  <select id="tingkat-kegiatan" class="form-select" required>
+                    <option value="">Pilih tingkat kegiatan</option>
+                    <option value="kampus">Kampus</option>
+                    <option value="nasional">Nasional</option>
+                    <option value="internasional">Internasional</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="keikutsertaan"
+                    >Keikutsertaan</label
+                  >
+                  <select id="keikutsertaan" class="form-select" required>
+                    <option value="">Pilih keikutsertaan</option>
+                    <option value="individu">Individu</option>
+                    <option value="kelompok">Kelompok</option>
+                  </select>
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label" for="deskripsi">Deskripsi</label>
+                  <textarea
+                    id="deskripsi"
+                    class="form-textarea"
+                    placeholder="Tulis deskripsi..."
+                    required
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section 4: Informasi Tambahan -->
+            <div class="form-section">
+              <h2 class="form-section-title">Informasi Tambahan</h2>
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="penyelenggara"
+                    >Penyelenggara</label
+                  >
+                  <input
+                    type="text"
+                    id="penyelenggara"
+                    class="form-input"
+                    placeholder="Tulis nama penyelenggara"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="nama-kegiatan"
+                    >Nama Kegiatan</label
+                  >
+                  <input
+                    type="text"
+                    id="nama-kegiatan"
+                    class="form-input"
+                    placeholder="Tulis nama kegiatan"
+                    required
+                  />
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label">Unggah Dokumen</label>
+                  <div class="upload-area">
+                    <div class="upload-icon">
+                      <img src="../png/unggah.png" alt="Upload" />
+                    </div>
+                    <div class="upload-text">
+                      <strong>Klik untuk unggah</strong> atau seret dan lepas
+                      dokumen pdf
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">
+                <img src="../png/simpan.png" alt="" class="btn-icon" />
+                Simpan
+              </button>
+              <button type="reset" class="btn btn-secondary">
+                <img src="../png/aturulang.png" alt="" class="btn-icon" />
+                Atur Ulang
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
