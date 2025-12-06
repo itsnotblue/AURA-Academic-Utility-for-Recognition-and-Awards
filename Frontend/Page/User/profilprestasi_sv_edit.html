@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AURA — Edit Data Prestasi</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Root colors and variables */
+      :root {
+        --bg: #ffffff;
+        --panel: #fafafa;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --muted: #a6a8a7;
+        --text-dark: #58585a;
+        --text-light: #8c8c8c;
+        --border: #eaecf0;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text-dark);
+      }
+
+      .page-container {
+        width: 100%;
+        position: relative;
+        background: var(--bg);
+        display: flex;
+      }
+
+      .container {
+        width: calc(100vw - 296px);
+        max-width: 1200px;
+        min-height: 1024px;
+        position: relative;
+        background: white;
+        margin-left: 296px;
+        padding: 44px 40px;
+      }
+
+      /* Sidebar - z-index: 10 */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 296px;
+        height: 100vh;
+        background: var(--panel);
+        padding: 32px 24px;
+        overflow-y: auto;
+        z-index: 10;
+      }
+
+      .logo {
+        display: block;
+        width: 109px;
+        height: 66px;
+        margin: 0 auto 64px;
+      }
+
+      .menu-section {
+        margin-bottom: 32px;
+      }
+
+      .menu-section-title {
+        color: #b11216;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 8px;
+        margin: 8px 0;
+        color: var(--muted);
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        position: relative;
+      }
+
+      .nav-item:hover {
+        background: rgba(236, 29, 37, 0.05);
+        color: var(--accent);
+        transform: translateX(4px);
+      }
+
+      .nav-item.active {
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .nav-item.active::before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(
+          180deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        border-radius: 2px;
+        margin-left: -8px;
+        margin-right: 4px;
+      }
+
+      .nav-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        flex-shrink: 0;
+      }
+
+      /* Main Content */
+      .main-content {
+        width: 100%;
+        background: #fafafa;
+        border-radius: 12px;
+        padding: 24px 32px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .page-title {
+        color: #58585a;
+        font-size: 24px;
+        font-family: Inter;
+        font-weight: 600;
+        line-height: 28.8px;
+        margin-bottom: 4px;
+      }
+
+      .page-subtitle {
+        color: #58585a;
+        font-size: 16px;
+        font-family: Inter;
+        font-weight: 400;
+        margin-bottom: 24px;
+      }
+
+      .edit-indicator {
+        color: #ec1d25;
+        font-size: 16px;
+        font-family: Inter;
+        font-weight: 600;
+        line-height: 19.2px;
+        margin-bottom: 24px;
+        margin-top: 0;
+      }
+
+      .section-title {
+        color: #58585a;
+        font-size: 16px;
+        font-family: Inter;
+        font-weight: 600;
+        line-height: 19.2px;
+        margin-bottom: 16px;
+        margin-top: 24px;
+      }
+
+      .form-section {
+        margin-bottom: 24px;
+      }
+
+      .form-section:last-child {
+        margin-bottom: 0;
+      }
+
+      .form-section .section-title {
+        margin-top: 0;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .form-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .form-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-group.full-width {
+        width: 100%;
+      }
+
+      .form-label {
+        color: #5e6366;
+        font-size: 12px;
+        font-family: Inter;
+        font-weight: 700;
+      }
+
+      .form-label .required {
+        color: #ff383c;
+      }
+
+      .form-input,
+      .form-select,
+      .form-textarea {
+        height: 52px;
+        padding: 8px 16px;
+        border-radius: 8px;
+        border: 1px solid #cfd3d4;
+        outline: none;
+        font-size: 16px;
+        font-family: Inter;
+        font-weight: 400;
+        color: #5e6366;
+        background: white;
+        transition: all 0.3s ease;
+      }
+
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        border-color: #ec1d25;
+      }
+
+      .form-input:disabled {
+        background: #fafafa;
+        opacity: 0.7;
+      }
+
+      .form-input::placeholder,
+      .form-select::placeholder,
+      .form-textarea::placeholder {
+        color: #abafb1;
+      }
+
+      .form-textarea {
+        height: 163px;
+        padding: 16px;
+        resize: vertical;
+      }
+
+      .file-upload-area {
+        height: 163px;
+        background: #fafafa;
+        border-radius: 8px;
+        border: 1px dashed #cfd3d4;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .file-upload-area:hover {
+        border-color: #ec1d25;
+        background: #fff;
+      }
+
+      .file-upload-icon {
+        width: 37px;
+        height: 37px;
+        background: #eaecf0;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+      }
+
+      .file-upload-text {
+        text-align: center;
+        font-size: 12px;
+        font-family: Inter;
+      }
+
+      .file-upload-text .highlight {
+        color: #ec1d25;
+        font-weight: 700;
+      }
+
+      .file-upload-text .normal {
+        color: #abafb1;
+        font-weight: 400;
+      }
+
+      .button-group {
+        display: flex;
+        gap: 16px;
+        margin-top: 32px;
+      }
+
+      .btn {
+        height: 52px;
+        padding: 16px 56px;
+        border-radius: 8px;
+        border: none;
+        font-size: 16px;
+        font-family: Inter;
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background: linear-gradient(45deg, #ec1d25 0%, #861015 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(236, 29, 37, 0.3);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #ec1d25;
+        border: 2px solid #ec1d25;
+      }
+
+      .btn-secondary:hover {
+        background: #ec1d25;
+        color: white;
+      }
+
+      .btn-icon {
+        width: 16px;
+        height: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <img class="logo" src="../../png/Aura_logo.png" alt="Logo" />
+
+        <div class="menu-section">
+          <div class="menu-section-title">Menu</div>
+          <a href="homepage.html" class="nav-item">
+            <img src="../../png/dashboard.png" alt="" class="nav-icon" />
+            Dashboard
+          </a>
+          <a href="dataprestasi_rm.html" class="nav-item">
+            <img src="../../png/dataprestasi.png" alt="" class="nav-icon" />
+            Data Prestasi
+          </a>
+          <a href="profilprestasi.html" class="nav-item active">
+            <img src="../../png/profilprestasi_red.png" alt="" class="nav-icon" />
+            Profil Prestasi
+          </a>
+        </div>
+
+        <div class="menu-section">
+          <div class="menu-section-title">Umum</div>
+          <a href="../landingpage.html" class="nav-item">
+            <img src="../../png/keluar.png" alt="" class="nav-icon" />
+            Keluar
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content Container -->
+      <div class="container">
+        <!-- Header -->
+        <h1 class="page-title">Edit Data Prestasi</h1>
+        <p class="page-subtitle">
+          Selamat datang di pusat informasi dan analitik prestasi mahasiswa.
+        </p>
+
+        <div class="main-content">
+          <div class="edit-indicator">Edit Data</div>
+
+          <!-- Informasi Mahasiswa -->
+          <div class="form-section">
+            <div class="section-title">Informasi Mahasiswa</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Nama</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  value="Alexa Adriana"
+                  disabled
+                  aria-label="Nama"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">NIM</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  value="1301223019"
+                  disabled
+                  aria-label="NIM"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Tanggal Kegiatan -->
+          <div class="form-section">
+            <div class="section-title">Tanggal Kegiatan</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"
+                  >Tahun Ajaran <span class="required">*</span></label
+                >
+                <select class="form-select" aria-label="Tahun Ajaran">
+                  <option value="">Pilih tahun akademik</option>
+                  <option value="2023/2024">2023/2024</option>
+                  <option value="2024/2025">2024/2025</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >Tanggal Kegiatan <span class="required">*</span></label
+                >
+                <input
+                  type="date"
+                  class="form-input"
+                  placeholder="dd/mm/yyyy"
+                  aria-label="Tanggal Kegiatan"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Informasi Prestasi -->
+          <div class="form-section">
+            <div class="section-title">Informasi Prestasi</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"
+                  >Jenis Kategori <span class="required">*</span></label
+                >
+                <select class="form-select" aria-label="Jenis Kategori">
+                  <option value="">Pilih jenis kategori</option>
+                  <option value="akademik">Akademik</option>
+                  <option value="non-akademik">Non-Akademik</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >Jenis Kegiatan <span class="required">*</span></label
+                >
+                <select class="form-select" aria-label="Jenis Kegiatan">
+                  <option value="">Pilih jenis kegiatan</option>
+                  <option value="lomba">Lomba</option>
+                  <option value="kompetisi">Kompetisi</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"
+                  >Tingkat Kegiatan <span class="required">*</span></label
+                >
+                <select class="form-select" aria-label="Tingkat Kegiatan">
+                  <option value="">Pilih tingkat kegiatan</option>
+                  <option value="kampus">Kampus</option>
+                  <option value="nasional">Nasional</option>
+                  <option value="internasional">Internasional</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >Keikutsertaan <span class="required">*</span></label
+                >
+                <select class="form-select" aria-label="Keikutsertaan">
+                  <option value="">Pilih keikutsertaan</option>
+                  <option value="individu">Individu</option>
+                  <option value="kelompok">Kelompok</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"
+                  >Deskripsi <span class="required">*</span></label
+                >
+                <textarea
+                  class="form-textarea"
+                  placeholder="Tulis deskripsi..."
+                  aria-label="Deskripsi"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >Unggah Dokumen <span class="required">*</span></label
+                >
+                <div class="file-upload-area">
+                  <div class="file-upload-icon">
+                    <svg
+                      width="13"
+                      height="13"
+                      viewBox="0 0 13 13"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M6.5 2V11M6.5 2L3 5.5M6.5 2L10 5.5"
+                        stroke="#A6A8A7"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <div class="file-upload-text">
+                    <span class="highlight">Klik untuk unggah</span>
+                    <span class="normal">atau seret dan lepas dokumen pdf</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Informasi Tambahan -->
+          <div class="form-section">
+            <div class="section-title">Informasi Tambahan</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"
+                  >Penyelenggara <span class="required">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-input"
+                  placeholder="Tulis nama penyelenggara"
+                  aria-label="Penyelenggara"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label"
+                  >Nama Kegiatan <span class="required">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-input"
+                  placeholder="Tulis nama kegiatan"
+                  aria-label="Nama Kegiatan"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="button-group">
+            <button class="btn btn-primary">
+              <svg
+                class="btn-icon"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13 4L6 11L3 8"
+                  stroke="white"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Simpan
+            </button>
+            <button class="btn btn-secondary">
+              <svg
+                class="btn-icon"
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M8 2.5C5.515 2.5 3.5 4.515 3.5 7C3.5 9.485 5.515 11.5 8 11.5C10.485 11.5 12.5 9.485 12.5 7C12.5 4.515 10.485 2.5 8 2.5ZM10.5 7.75H8.75V9.5H7.25V7.75H5.5V6.25H7.25V4.5H8.75V6.25H10.5V7.75Z"
+                />
+              </svg>
+              Atur Ulang
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

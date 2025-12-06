@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AURA — Profil Prestasi</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Root colors and variables */
+      :root {
+        --bg: #ffffff;
+        --panel: #fafafa;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --muted: #a6a8a7;
+        --text-dark: #58585a;
+        --text-light: #8c8c8c;
+        --border: #eaecf0;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text-dark);
+      }
+
+      .page-container {
+        width: 100%;
+        position: relative;
+        background: var(--bg);
+        display: flex;
+      }
+
+      .container {
+        width: calc(100vw - 296px);
+        min-height: 1024px;
+        position: relative;
+        background: white;
+        margin-left: 296px;
+        padding: 44px 40px;
+      }
+
+      /* Sidebar - z-index: 10 */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 296px;
+        height: 100vh;
+        background: var(--panel);
+        padding: 32px 24px;
+        overflow-y: auto;
+        z-index: 10;
+      }
+
+      .logo {
+        display: block;
+        width: 109px;
+        height: 66px;
+        margin: 0 auto 64px;
+      }
+
+      .menu-section {
+        margin-bottom: 32px;
+      }
+
+      .menu-section-title {
+        color: #b11216;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 12px;
+      }
+
+      .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 8px;
+        margin: 8px 0;
+        color: var(--muted);
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        position: relative;
+      }
+
+      .nav-item:hover {
+        background: rgba(236, 29, 37, 0.05);
+        color: var(--accent);
+        transform: translateX(4px);
+      }
+
+      .nav-item.active {
+        color: var(--accent);
+        font-weight: 500;
+      }
+
+      .nav-item.active::before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 24px;
+        background: linear-gradient(
+          180deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        border-radius: 2px;
+        margin-left: -8px;
+        margin-right: 4px;
+      }
+
+      .nav-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        flex-shrink: 0;
+      }
+
+      /* Profile Section - z-index: 5 */
+      .profile-banner {
+        width: 344px;
+        height: 142px;
+        left: 34px;
+        top: 44px;
+        position: absolute;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #ff8a8a 0%, #ffa5a5 100%);
+        z-index: 5;
+      }
+
+      .profile-card {
+        width: 344px;
+        height: 486px;
+        left: 34px;
+        top: 152px;
+        position: absolute;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+        z-index: 6;
+      }
+
+      .avatar-bg {
+        width: 110px;
+        height: 110px;
+        left: 151px;
+        top: 131px;
+        position: absolute;
+        background: #fafafa;
+        border-radius: 81px;
+        z-index: 7;
+      }
+
+      .avatar {
+        width: 97px;
+        height: 97px;
+        left: 158px;
+        top: 138px;
+        position: absolute;
+        background: #b8dff2;
+        border-radius: 81px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        z-index: 8;
+      }
+
+      .profile-name {
+        left: 120px;
+        top: 247px;
+        position: absolute;
+        width: 174px;
+        text-align: center;
+        color: #58585a;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 28.8px;
+        z-index: 7;
+      }
+
+      .profile-role {
+        left: 120px;
+        top: 284px;
+        position: absolute;
+        width: 174px;
+        text-align: center;
+        color: #58585a;
+        font-size: 16px;
+        font-weight: 400;
+        z-index: 7;
+      }
+
+      .info-divider {
+        width: 297px;
+        left: 57px;
+        top: 356px;
+        position: absolute;
+        border-top: 1px solid #d9d9d9;
+        z-index: 7;
+      }
+
+      .info-title {
+        left: 59px;
+        top: 329px;
+        position: absolute;
+        color: #58585a;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+        z-index: 7;
+      }
+
+      /* Info Items */
+      .info-row {
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 297px;
+        left: 57px;
+        z-index: 7;
+      }
+
+      .info-row-1 {
+        top: 383px;
+      }
+      .info-row-2 {
+        top: 434px;
+      }
+      .info-row-3 {
+        top: 485px;
+      }
+      .info-row-4 {
+        top: 536px;
+      }
+      .info-row-5 {
+        top: 587px;
+      }
+
+      .info-label-group {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .info-icon {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        object-fit: contain;
+      }
+
+      .info-label {
+        color: #d9d9d9;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+      }
+
+      .info-value {
+        color: #58585a;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+      }
+
+      /* Stats Container Background - z-index: 1 */
+      .stats-container {
+        width: 760px;
+        height: 964px;
+        left: 402px;
+        top: 44px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        z-index: 1;
+      }
+
+      /* Section Titles - z-index: 3 */
+      .section-title {
+        position: absolute;
+        color: #58585a;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+        z-index: 3;
+      }
+
+      .title-total {
+        left: 416px;
+        top: 143px;
+      }
+      .title-kategori {
+        left: 416px;
+        top: 330px;
+      }
+      .title-tingkat {
+        left: 416px;
+        top: 520px;
+      }
+      .title-peringkat {
+        left: 416px;
+        top: 715px;
+      }
+      .title-rangking {
+        left: 416px;
+        top: 910px;
+      }
+
+      /* Tabs Section - z-index: 2 */
+      .tabs-bg {
+        width: 731px;
+        height: 61px;
+        left: 416px;
+        top: 58px;
+        position: absolute;
+        background: #921217;
+        border-radius: 12px;
+        z-index: 2;
+      }
+
+      .tab-active-bg {
+        width: 211px;
+        height: 48px;
+        left: 423px;
+        top: 65px;
+        position: absolute;
+        background: rgba(194, 46, 23, 0.5);
+        border-radius: 8px;
+        z-index: 3;
+      }
+
+      .tab-text {
+        position: absolute;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+        cursor: pointer;
+        z-index: 4;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .tab-text:hover {
+        opacity: 0.9;
+      }
+
+      .tab-1 {
+        left: 458px;
+        top: 79px;
+      }
+      .tab-2 {
+        left: 698px;
+        top: 79px;
+      }
+      .tab-3 {
+        left: 911px;
+        top: 79px;
+      }
+
+      /* Banner Stats - z-index: 2 */
+      .banner-bg {
+        width: 731px;
+        height: 132px;
+        left: 416px;
+        top: 174px;
+        position: absolute;
+        background: linear-gradient(38deg, #ec1d25 0%, #861015 100%);
+        border-radius: 12px;
+        z-index: 2;
+      }
+
+      .banner-stats-container {
+        left: 416px;
+        top: 195px;
+        position: absolute;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 731px;
+        z-index: 3;
+      }
+
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        flex: 1;
+        position: relative;
+      }
+
+      .stat-item:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.3);
+      }
+
+      .stat-icon-wrapper {
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .stat-icon {
+        border: 2px solid white;
+      }
+
+      .stat-icon-wrapper img {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+      }
+
+      .stat-label {
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 16.8px;
+        text-align: center;
+      }
+
+      .stat-value {
+        color: white;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 28.8px;
+      }
+
+      /* Category Cards - z-index: 2 */
+      .category-card {
+        width: 331px;
+        height: 135px;
+        padding: 12px 11px;
+        position: absolute;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 2;
+      }
+
+      .kategori-akademik {
+        left: 416px;
+        top: 361px;
+        background: #ec1d25;
+      }
+
+      .kategori-akademik .card-icon-bg {
+        background: #b20007;
+      }
+
+      .kategori-akademik .card-title,
+      .kategori-akademik .card-number,
+      .kategori-akademik .card-desc {
+        color: white;
+      }
+
+      .kategori-non-akademik {
+        left: 793px;
+        top: 361px;
+        background: #d9d9d9;
+      }
+
+      .kategori-non-akademik .card-icon-bg {
+        background: #58585a;
+      }
+
+      .kategori-non-akademik .card-title,
+      .kategori-non-akademik .card-number,
+      .kategori-non-akademik .card-desc {
+        color: #58585a;
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .card-icon-bg {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        position: relative;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .card-icon-img {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+      }
+
+      .card-title {
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .card-number {
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 43.2px;
+      }
+
+      .card-desc {
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 16.8px;
+      }
+
+      /* Level Cards - z-index: 2 */
+      .level-card {
+        width: 162px;
+        height: 140px;
+        padding: 10px;
+        position: absolute;
+        background: #ec1d25;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 2;
+      }
+
+      .level-card .card-icon-bg {
+        background: #b20007;
+      }
+
+      .level-card .card-title {
+        color: white;
+      }
+
+      .level-universitas {
+        left: 416px;
+        top: 551px;
+      }
+      .level-regional {
+        left: 604px;
+        top: 551px;
+      }
+      .level-nasional {
+        left: 792px;
+        top: 551px;
+      }
+      .level-internasional {
+        left: 980px;
+        top: 551px;
+      }
+
+      .level-number {
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 43.2px;
+        color: white;
+      }
+
+      .level-desc {
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 12px;
+        color: white;
+      }
+
+      /* Peringkat Cards - z-index: 2 */
+      .peringkat-card {
+        width: 162px;
+        height: 140px;
+        padding: 10px;
+        position: absolute;
+        background: #404040;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 2;
+      }
+
+      .peringkat-juara1 {
+        left: 416px;
+        top: 746px;
+      }
+
+      .peringkat-juara1 .card-icon-bg {
+        background: #ffcc00;
+      }
+
+      .peringkat-juara2 {
+        left: 604px;
+        top: 746px;
+      }
+
+      .peringkat-juara2 .card-icon-bg {
+        background: #8e8e93;
+      }
+
+      .peringkat-juara3 {
+        left: 792px;
+        top: 746px;
+      }
+
+      .peringkat-juara3 .card-icon-bg {
+        background: #b15816;
+      }
+
+      .peringkat-finalis {
+        left: 980px;
+        top: 746px;
+      }
+
+      .peringkat-finalis .card-icon-bg {
+        background: #6155f5;
+      }
+
+      .peringkat-card .card-title {
+        color: white;
+      }
+
+      /* Score Card - z-index: 5 */
+      .score-card {
+        width: 344px;
+        height: 346px;
+        padding: 23px 22px;
+        left: 34px;
+        top: 662px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 5;
+      }
+
+      .score-card .card-icon-bg {
+        background: #b20007;
+      }
+
+      .score-card .card-title {
+        color: #404040;
+      }
+
+      .score-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .score-number {
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 43.2px;
+        color: #404040;
+      }
+
+      .score-desc {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 19.2px;
+        color: #404040;
+      }
+
+      /* Ranking Banner - z-index: 2 */
+      .ranking-banner {
+        width: 731px;
+        height: 44px;
+        padding: 12px;
+        left: 416px;
+        top: 941px;
+        position: absolute;
+        background: #ec1d25;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        z-index: 2;
+      }
+
+      .ranking-text {
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 19.2px;
+      }
+
+      .ranking-text strong {
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <img class="logo" src="../../png/Aura_logo.png" alt="Logo" />
+
+        <div class="menu-section">
+          <div class="menu-section-title">Menu</div>
+          <a href="homepage.html" class="nav-item">
+            <img src="../../png/dashboard.png" alt="" class="nav-icon" />
+            Dashboard
+          </a>
+          <a href="dataprestasi_rm.html" class="nav-item">
+            <img src="../../png/dataprestasi.png" alt="" class="nav-icon" />
+            Data Prestasi
+          </a>
+          <a href="profilprestasi.html" class="nav-item active">
+            <img
+              src="../../png/profilprestasi_red.png"
+              alt=""
+              class="nav-icon"
+            />
+            Profil Prestasi
+          </a>
+        </div>
+
+        <div class="menu-section">
+          <div class="menu-section-title">Umum</div>
+          <a href="../landingpage.html" class="nav-item">
+            <img src="../../png/keluar.png" alt="" class="nav-icon" />
+            Keluar
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content Container -->
+      <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-banner"></div>
+        <div class="profile-card"></div>
+        <div class="avatar-bg"></div>
+        <div class="avatar">👨</div>
+        <div class="profile-name">Alexa Adriana</div>
+        <div class="profile-role">Mahasiswa</div>
+
+        <div class="info-divider"></div>
+        <div class="info-title">Informasi</div>
+
+        <!-- Info Rows -->
+        <div class="info-row info-row-1">
+          <div class="info-label-group">
+            <img src="../../png/nama_pp.png" alt="" class="info-icon" />
+            <div class="info-label">Nama</div>
+          </div>
+          <div class="info-value">Alexa Adriana</div>
+        </div>
+
+        <div class="info-row info-row-2">
+          <div class="info-label-group">
+            <img src="../../png/nim_pp.png" alt="" class="info-icon" />
+            <div class="info-label">NIM</div>
+          </div>
+          <div class="info-value">1301223019</div>
+        </div>
+
+        <div class="info-row info-row-3">
+          <div class="info-label-group">
+            <img src="../../png/ps_pp.png" alt="" class="info-icon" />
+            <div class="info-label">Program Studi</div>
+          </div>
+          <div class="info-value">S1-Informatika</div>
+        </div>
+
+        <div class="info-row info-row-4">
+          <div class="info-label-group">
+            <img src="../../png/fakultasi_pp.png" alt="" class="info-icon" />
+            <div class="info-label">Fakultas</div>
+          </div>
+          <div class="info-value">Informatika</div>
+        </div>
+
+        <div class="info-row info-row-5">
+          <div class="info-label-group">
+            <img src="../../png/tahun_pp.png" alt="" class="info-icon" />
+            <div class="info-label">Tahun Angkatan</div>
+          </div>
+          <div class="info-value">2022</div>
+        </div>
+
+        <!-- Stats Container -->
+        <div class="stats-container"></div>
+
+        <!-- Section Titles -->
+        <div class="section-title title-total">Total Prestasi</div>
+        <div class="section-title title-kategori">
+          Prestasi Berdasarkan Kategori
+        </div>
+        <div class="section-title title-tingkat">
+          Prestasi Berdasarkan Tingkat Lomba
+        </div>
+        <div class="section-title title-peringkat">Peringkat Pencapaian</div>
+        <div class="section-title title-rangking">
+          Rangking dalam Program Studi
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-bg"></div>
+        <div class="tab-active-bg"></div>
+        <div
+          class="tab-text tab-1"
+          onclick="window.location.href='profilprestasi.html'"
+        >
+          Ringkasan Prestasi
+        </div>
+        <div
+          class="tab-text tab-2"
+          onclick="window.location.href='profilprestasi_sv.html'"
+        >
+          Status Verifikasi
+        </div>
+        <div
+          class="tab-text tab-3"
+          onclick="window.location.href='profilprestasi_ib.html'"
+        >
+          Informasi Beasiswa
+        </div>
+
+        <!-- Banner Stats -->
+        <div class="banner-bg"></div>
+        <div class="banner-stats-container">
+          <div class="stat-item">
+            <div class="stat-icon-wrapper">
+              <img src="../../png/presinput_pp.png" alt="" />
+            </div>
+            <div class="stat-label">Prestasi Terinput</div>
+            <div class="stat-value">20</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-icon-wrapper">
+              <img src="../../png/presvalid_pp.png" alt="" />
+            </div>
+            <div class="stat-label">Prestasi Tervalidasi</div>
+            <div class="stat-value">5</div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-icon-wrapper">
+              <img src="../../png/skorai_pp.png" alt="" />
+            </div>
+            <div class="stat-label">Total Skor AI</div>
+            <div class="stat-value">80</div>
+          </div>
+        </div>
+
+        <!-- Category Cards -->
+        <div class="category-card kategori-akademik">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Total Prestasi Akademik</div>
+          </div>
+          <div class="card-number">3</div>
+          <div class="card-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <div class="category-card kategori-non-akademik">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Total Prestasi Non-Akademik</div>
+          </div>
+          <div class="card-number">2</div>
+          <div class="card-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <!-- Level Cards -->
+        <div class="level-card level-universitas">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Universitas</div>
+          </div>
+          <div class="level-number">2</div>
+          <div class="level-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <div class="level-card level-regional">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Regional</div>
+          </div>
+          <div class="level-number">2</div>
+          <div class="level-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <div class="level-card level-nasional">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Nasional</div>
+          </div>
+          <div class="level-number">1</div>
+          <div class="level-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <div class="level-card level-internasional">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Internasional</div>
+          </div>
+          <div class="level-number">0</div>
+          <div class="level-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <!-- Peringkat Cards -->
+        <div class="peringkat-card peringkat-juara1">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Juara 1</div>
+          </div>
+          <div class="level-number">2</div>
+          <div class="level-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <div class="peringkat-card peringkat-juara2">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Juara 2</div>
+          </div>
+          <div class="level-number">2</div>
+          <div class="level-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <div class="peringkat-card peringkat-juara3">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Juara 3</div>
+          </div>
+          <div class="level-number">1</div>
+          <div class="level-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <div class="peringkat-card peringkat-finalis">
+          <div class="card-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Finalis</div>
+          </div>
+          <div class="level-number">0</div>
+          <div class="level-desc">Total dari keseluruhan prestasi.</div>
+        </div>
+
+        <!-- Score Card -->
+        <div class="score-card">
+          <div class="score-header">
+            <div class="card-icon-bg">
+              <img
+                src="../../png/totalprestasi.png"
+                alt=""
+                class="card-icon-img"
+              />
+            </div>
+            <div class="card-title">Skor Indeks Prestasi AURA</div>
+          </div>
+          <div class="score-number">80/100</div>
+          <div class="score-desc">
+            Anda termasuk Top 10% mahasiswa dengan prestasi terverifikasi
+            terbanyak.
+          </div>
+        </div>
+
+        <!-- Ranking Banner -->
+        <div class="ranking-banner">
+          <div class="ranking-text">
+            Anda berada pada <strong>#12</strong> dari
+            <strong>350</strong> mahasiswa dalam program studi
+            <strong>S1-Informatika</strong>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
