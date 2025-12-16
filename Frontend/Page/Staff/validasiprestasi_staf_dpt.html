@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Detail Validasi Prestasi - AURA</title>
+    <title>Data Prestasi Tervalidasi - AURA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="sidebar.css" />
     <style>
       :root {
         --bg: white;
@@ -39,77 +40,6 @@
         min-height: 100vh;
       }
 
-      /* Sidebar Styles */
-      .sidebar {
-        width: 296px;
-        min-height: 100vh;
-        background: var(--panel);
-        position: fixed;
-        left: 0;
-        top: 0;
-        z-index: 100;
-        display: flex;
-        flex-direction: column;
-        padding: 36px 32px;
-      }
-
-      .logo {
-        width: 109px;
-        height: 66px;
-        margin: 0 auto 40px;
-        display: block;
-      }
-
-      .menu-section {
-        margin-bottom: 40px;
-      }
-
-      .menu-section-title {
-        color: #b11216;
-        font-size: 16px;
-        font-weight: 400;
-        margin-bottom: 24px;
-      }
-
-      .nav-item {
-        display: flex;
-        align-items: center;
-        padding: 12px 0;
-        color: var(--gray-light);
-        font-size: 16px;
-        font-weight: 400;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
-
-      .nav-item:hover {
-        color: var(--accent);
-      }
-
-      .nav-item.active {
-        color: var(--accent);
-        font-weight: 500;
-        position: relative;
-      }
-
-      .nav-item.active::before {
-        content: "";
-        position: absolute;
-        left: -32px;
-        top: 0;
-        width: 4px;
-        height: 100%;
-        background: var(--accent);
-        border-radius: 0 4px 4px 0;
-      }
-
-      .nav-icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 12px;
-      }
-
       /* Main Content */
       .main-content {
         margin-left: 296px;
@@ -132,7 +62,7 @@
       }
 
       .dashboard-header {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
       }
 
       .dashboard-header h2 {
@@ -144,449 +74,440 @@
       }
 
       .dashboard-header p {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 400;
-        color: var(--text-secondary);
+        color: var(--text-primary);
       }
 
-      /* Section Headers */
-      .section-header {
+      /* Filter Tabs */
+      .filter-tabs {
+        display: flex;
+        gap: 0;
+        margin-bottom: 8px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .filter-tab {
+        padding: 12px 20px;
+        background: #f5f5f5;
+        border-radius: 8px 8px 0 0;
+        border: none;
+        border-bottom: 3px solid transparent;
+        color: var(--text-secondary);
         font-size: 16px;
         font-weight: 600;
-        color: var(--text-primary);
-        margin: 32px 0 20px;
         font-family: "Inter", sans-serif;
-      }
-
-      /* Form Styles */
-      .form-group {
-        margin-bottom: 20px;
-      }
-
-      .form-label {
-        display: block;
-        color: var(--text-primary);
-        font-size: 14px;
-        font-weight: 600;
-        font-family: "Inter", sans-serif;
-        margin-bottom: 8px;
-      }
-
-      .form-input,
-      .form-select {
-        width: 100%;
-        height: 48px;
-        padding: 12px 16px;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 14px;
-        font-family: "Inter", sans-serif;
-        color: var(--text-primary);
-        background: white;
-        transition: all 0.3s ease;
-      }
-
-      .form-input:focus,
-      .form-select:focus {
-        outline: none;
-        border-color: var(--accent);
-      }
-
-      .form-input::placeholder,
-      .form-select::placeholder {
-        color: #b0b0b0;
-      }
-
-      .form-textarea {
-        width: 100%;
-        min-height: 120px;
-        padding: 12px 16px;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        font-size: 14px;
-        font-family: "Inter", sans-serif;
-        color: var(--text-primary);
-        background: white;
-        resize: vertical;
-        transition: all 0.3s ease;
-      }
-
-      .form-textarea:focus {
-        outline: none;
-        border-color: var(--accent);
-      }
-
-      .form-textarea::placeholder {
-        color: #b0b0b0;
-      }
-
-      .form-row {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-      }
-
-      .form-row-2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px;
-      }
-
-      /* File Upload */
-      .file-upload-area {
-        width: 100%;
-        min-height: 200px;
-        border: 2px dashed #e0e0e0;
-        border-radius: 8px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: white;
         cursor: pointer;
         transition: all 0.3s ease;
+        position: relative;
+        margin-right: 4px;
       }
 
-      .file-upload-area:hover {
-        border-color: var(--accent);
-        background: #fff5f5;
+      .filter-tab.active {
+        color: var(--accent);
+        background: white;
+        border-bottom: 3px solid var(--accent);
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
+        transform: translateY(3px);
+        z-index: 10;
       }
 
-      .file-upload-icon {
-        width: 48px;
-        height: 48px;
-        margin-bottom: 12px;
-        opacity: 0.5;
+      .filter-tab:hover {
+        color: var(--accent);
+        background: #fef5f5;
+        transform: translateY(1px);
       }
 
-      .file-upload-link {
-        color: #4285f4;
-        font-size: 14px;
-        text-decoration: underline;
-        cursor: pointer;
-      }
-
-      .file-upload-text {
-        color: var(--text-secondary);
-        font-size: 14px;
-        margin-top: 4px;
-      }
-
-      /* Validation Section */
-      .validation-section {
-        margin-top: 32px;
-        padding-top: 32px;
-        border-top: 1px solid #e0e0e0;
-      }
-
-      .validation-header {
+      /* Table Controls */
+      .table-controls {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 24px;
+        margin-bottom: 16px;
       }
 
-      .validation-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--text-primary);
-        font-family: "Inter", sans-serif;
-      }
-
-      .validation-subtitle {
-        font-size: 14px;
-        font-weight: 400;
-        color: var(--text-secondary);
-      }
-
-      .btn-validate-auto {
-        background: var(--accent);
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
+      .show-entries {
         display: flex;
         align-items: center;
         gap: 8px;
+        color: var(--text-secondary);
+        font-size: 16px;
+      }
+
+      .entries-select {
+        width: 71px;
+        height: 40px;
+        padding: 8px 12px;
+        border: 1px solid #acb1c6;
+        border-radius: 12px;
+        font-size: 16px;
+        color: var(--text-primary);
+        background: white;
+        cursor: pointer;
+      }
+
+      .search-box {
+        width: 260px;
+        height: 40px;
+        padding: 0 16px;
+        border: 1px solid #acb1c6;
+        border-radius: 12px;
+        font-size: 14px;
         font-family: "Inter", sans-serif;
       }
 
-      .btn-validate-auto:hover {
-        background: var(--accent-dark);
+      .search-box::placeholder {
+        color: #acb1c6;
       }
 
-      /* Detection Cards */
-      .detection-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-        margin-bottom: 32px;
-      }
-
-      .detection-card {
+      /* Data Table */
+      .data-table-box {
         background: white;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 16px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 0 8px 8px 8px;
+        overflow: hidden;
+        position: relative;
+        z-index: 5;
+        padding-top: 24px;
       }
 
-      .detection-header {
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: "Inter", sans-serif;
+      }
+
+      .data-table thead {
+        background: var(--accent);
+      }
+
+      .data-table th {
+        color: white;
+        font-size: 12px;
+        font-weight: 500;
+        text-align: left;
+        padding: 12px 24px;
+        border-bottom: 1px solid #eaecf0;
+        position: relative;
+      }
+
+      .data-table th.sortable {
+        cursor: pointer;
+        padding-right: 32px;
+      }
+
+      .data-table th.sortable::after {
+        content: "↓";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
         font-size: 14px;
-        font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: 12px;
       }
 
-      .detection-score {
+      .data-table td {
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-weight: 400;
+        padding: 12px 24px;
+        border-bottom: 1px solid #eaecf0;
+      }
+
+      .action-btn {
+        padding: 10px 16px;
+        background: linear-gradient(
+          46deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        border-radius: 6px;
+        border: none;
+        color: white;
+        font-size: 10px;
+        font-weight: 500;
+        font-family: "Inter", sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        width: 111px;
+        text-align: center;
+      }
+
+      .action-btn:hover {
+        box-shadow: 0px 4px 12px rgba(236, 29, 37, 0.3);
+      }
+
+      /* Status Tervalidasi (Green) */
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 8px 2px 6px;
+        background: #ecfdf3;
+        border-radius: 16px;
+      }
+
+      .status-badge .status-dot {
+        width: 6px;
+        height: 6px;
+        background: #14ba6d;
+        border-radius: 50%;
+      }
+
+      .status-badge span {
+        color: #037847;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      /* Pagination */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        margin-top: 24px;
+      }
+
+      .pagination-pages {
+        display: flex;
+        gap: 10px;
+      }
+
+      .page-btn {
+        width: 49px;
+        height: 49px;
         display: flex;
         align-items: center;
-        gap: 12px;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Work Sans", sans-serif;
+        color: #acb1c6;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .page-btn.active {
+        color: var(--accent);
+      }
+
+      .page-btn:hover:not(.active) {
+        color: var(--text-primary);
+      }
+
+      .page-nav {
+        padding: 12px 14px;
+        border: none;
+        background: transparent;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 600;
+        font-family: "Poppins", sans-serif;
+        color: #acb1c6;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .page-nav:hover {
+        color: var(--text-primary);
+      }
+
+      .pagination-ellipsis {
+        color: #acb1c6;
+      }
+
+      /* Detail Row Styles */
+      .detail-row {
+        display: none;
+      }
+
+      .detail-row.show {
+        display: table-row;
+      }
+
+      .detail-row td {
+        padding: 0 !important;
+        border-bottom: none !important;
+      }
+
+      .detail-content {
+        background: #f9fafb;
+        padding: 20px 24px;
+        border-top: 1px solid #e5e7eb;
+      }
+
+      .detail-grid {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 12px 20px;
+        margin-bottom: 20px;
+      }
+
+      .detail-label {
+        color: white;
+        background: var(--accent);
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px 12px;
+        border-radius: 4px;
+      }
+
+      .detail-value {
+        color: var(--text-primary);
+        font-size: 14px;
+        font-weight: 400;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 4px;
+      }
+
+      .detail-value a {
+        color: #3b82f6;
+        text-decoration: none;
+      }
+
+      .detail-value a:hover {
+        text-decoration: underline;
+      }
+
+      .detail-notes {
+        margin-top: 16px;
+      }
+
+      .notes-header {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 20px;
         margin-bottom: 8px;
       }
 
-      .score-value {
-        font-size: 24px;
-        font-weight: 700;
-        font-family: "Inter", sans-serif;
-      }
-
-      .progress-bar {
-        flex: 1;
-        height: 8px;
-        background: #e0e0e0;
+      .notes-label {
+        color: white;
+        background: var(--accent);
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px 12px;
         border-radius: 4px;
-        overflow: hidden;
       }
 
-      .progress-fill {
-        height: 100%;
+      .notes-title {
+        color: white;
+        background: var(--accent);
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px 12px;
         border-radius: 4px;
-        transition: width 0.3s ease;
       }
 
-      .progress-fill.high {
-        background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+      .notes-content {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        gap: 20px;
       }
 
-      .progress-fill.medium {
-        background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+      .notes-reviewer {
+        color: var(--text-primary);
+        font-size: 14px;
+        font-weight: 400;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 4px;
       }
 
-      .progress-fill.low {
-        background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+      .notes-text {
+        color: var(--text-primary);
+        font-size: 14px;
+        font-weight: 400;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 4px;
+        min-height: 60px;
       }
 
-      .detection-status {
+      .detail-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .btn-delete {
+        padding: 8px 16px;
+        background: white;
+        border: 1px solid var(--accent);
+        border-radius: 6px;
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-delete:hover {
+        background: #fef2f2;
+      }
+
+      .btn-edit {
+        padding: 8px 16px;
+        background: #fbbf24;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-edit:hover {
+        background: #f59e0b;
+      }
+
+      /* Status Badge Verifikasi */
+      .status-verifikasi {
         display: inline-block;
         padding: 4px 12px;
         border-radius: 12px;
         font-size: 12px;
-        font-weight: 600;
-        font-family: "Inter", sans-serif;
+        font-weight: 500;
       }
 
-      .status-tinggi {
-        background: #d1fae5;
-        color: #065f46;
-      }
-
-      .status-rendah {
-        background: #fed7aa;
+      .status-verifikasi.verified {
+        background: #fef3c7;
         color: #92400e;
       }
 
-      .status-sedang {
-        background: #fecaca;
+      .status-verifikasi.revision {
+        background: #fef2f2;
         color: #991b1b;
       }
 
-      /* Score Circle */
-      .score-circle-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-      }
-
-      .score-circle {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        border: 8px solid #e0e0e0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-      }
-
-      .score-circle::before {
-        content: "";
-        position: absolute;
-        top: -8px;
-        left: -8px;
-        right: -8px;
-        bottom: -8px;
-        border-radius: 50%;
-        border: 8px solid transparent;
-        border-top-color: var(--accent);
-        border-right-color: var(--accent);
-        border-bottom-color: var(--accent);
-        transform: rotate(-45deg);
-      }
-
-      .score-circle-value {
-        font-size: 32px;
-        font-weight: 700;
-        color: var(--text-primary);
-        z-index: 1;
-      }
-
-      .score-label {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text-primary);
-      }
-
-      .score-badge {
+      /* Chevron icon for detail toggle */
+      .detail-toggle {
+        cursor: pointer;
+        transition: transform 0.3s ease;
         display: inline-block;
-        padding: 6px 16px;
-        border-radius: 16px;
-        font-size: 12px;
-        font-weight: 600;
-        background: #d1fae5;
-        color: #065f46;
       }
 
-      /* Result Section */
-      .result-section {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 24px;
-        margin-bottom: 32px;
-      }
-
-      /* Checkbox Group */
-      .checkbox-group {
-        margin-top: 8px;
-      }
-
-      .checkbox-label {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 12px;
-        font-size: 14px;
-        color: var(--text-primary);
-        cursor: pointer;
-      }
-
-      .checkbox-label input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        accent-color: var(--accent);
-      }
-
-      .checkbox-label input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        accent-color: var(--accent);
-      }
-
-      /* Notes Section */
-      .notes-label {
-        display: block;
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: 8px;
-      }
-
-      /* Button Styles */
-      .btn-container {
-        display: flex;
-        justify-content: flex-start;
-        gap: 16px;
-        margin-top: 32px;
-      }
-
-      .btn {
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        font-family: "Inter", sans-serif;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .btn-primary {
-        background: var(--accent);
-        color: white;
-      }
-
-      .btn-primary:hover {
-        background: var(--accent-dark);
-        box-shadow: 0px 4px 12px rgba(236, 29, 37, 0.3);
-      }
-
-      .btn-secondary {
-        background: white;
-        color: var(--text-primary);
-        border: 1px solid #e0e0e0;
-      }
-
-      .btn-secondary:hover {
-        background: var(--panel);
+      .detail-toggle.open {
+        transform: rotate(180deg);
       }
     </style>
   </head>
   <body>
     <div class="page-container">
       <!-- Sidebar -->
-      <aside class="sidebar">
-        <img class="logo" src="../../png/Aura_logo.png" alt="Logo" />
-
-        <div class="menu-section">
-          <div class="menu-section-title">MENU</div>
-          <a href="homepage_staf.html" class="nav-item">
-            <img src="../../png/dashboard.png" alt="" class="nav-icon" />
-            Dashboard
-          </a>
-          <a href="validasiprestasi_staf.html" class="nav-item active">
-            <img src="../../png/dataprestasi_red.png" alt="" class="nav-icon" />
-            Validasi Prestasi
-          </a>
-          <a href="rankingmahasiswa_staf.html" class="nav-item">
-            <img src="../../png/profilprestasi.png" alt="" class="nav-icon" />
-            Rangking Mahasiswa
-          </a>
-          <a href="#" class="nav-item">
-            <img src="../../png/riwayatverif.png" alt="" class="nav-icon" />
-            Riwayat Verifikasi
-          </a>
-        </div>
-
-        <div class="menu-section">
-          <div class="menu-section-title">UMUM</div>
-          <a href="profil_staf.html" class="nav-item">
-            <img src="../../png/nama_pp.png" alt="" class="nav-icon" />
-            Profil Staf
-          </a>
-          <a href="../landingpage.html" class="nav-item">
-            <img src="../../png/keluar.png" alt="" class="nav-icon" />
-            Keluar
-          </a>
-        </div>
-      </aside>
+      <div id="sidebar-placeholder"></div>
 
       <!-- Main Content -->
       <div class="main-content">
@@ -594,134 +515,1155 @@
           <!-- Dashboard Content -->
           <div class="dashboard-content">
             <div class="dashboard-header">
-              <h2>Detail Validasi</h2>
-              <p>
-                Lengkapi informasi prestasi dan verifikasi data sebelum
-                melakukan validasi final.
-              </p>
+              <h2>Validasi Prestasi</h2>
+              <p>lorem ipsum</p>
             </div>
 
-            <!-- Form -->
-            <form>
-              <!-- Tahun Ajaran & Tanggal Kegiatan -->
-              <div class="form-row-2">
-                <div class="form-group">
-                  <label for="tahun-ajaran" class="form-label"
-                    >Tahun Ajaran</label
-                  >
-                  <select
-                    id="tahun-ajaran"
-                    class="form-select"
-                    aria-label="Pilih tahun ajaran"
-                  >
-                    <option value="">Pilih tahun akademik</option>
-                    <option value="2024/2025">2024/2025</option>
-                    <option value="2023/2024">2023/2024</option>
-                    <option value="2022/2023">2022/2023</option>
-                  </select>
-                </div>
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+              <button
+                class="filter-tab"
+                onclick="window.location.href='validasiprestasi_staf.html'"
+              >
+                Data Prestasi
+              </button>
+              <button
+                class="filter-tab active"
+                onclick="window.location.href='validasiprestasi_staf_dpt.html'"
+              >
+                Data Prestasi Tervalidasi
+              </button>
+            </div>
 
-                <div class="form-group">
-                  <label for="tanggal-kegiatan" class="form-label"
-                    >Tanggal Kegiatan</label
-                  >
-                  <input
-                    type="date"
-                    id="tanggal-kegiatan"
-                    class="form-input"
-                    aria-label="Pilih tanggal kegiatan"
-                  />
-                </div>
+            <!-- Table Controls -->
+            <div class="table-controls">
+              <div class="show-entries">
+                <label for="entries-select">Show</label>
+                <select
+                  id="entries-select"
+                  class="entries-select"
+                  aria-label="Number of entries to show"
+                >
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <span>data</span>
               </div>
+              <input
+                type="text"
+                class="search-box"
+                placeholder="Search"
+                aria-label="Search table"
+              />
+            </div>
 
-              <!-- Row dengan 4 kolom -->
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="jenis-kategori" class="form-label"
-                    >Jenis Kategori</label
-                  >
-                  <select
-                    id="jenis-kategori"
-                    class="form-select"
-                    aria-label="Pilih jenis kategori"
-                  >
-                    <option value="">Pilih jenis kategori</option>
-                    <option value="seni">Seni</option>
-                    <option value="teknologi">Teknologi</option>
-                    <option value="akademik">Akademik</option>
-                    <option value="olahraga">Olahraga</option>
-                  </select>
-                </div>
+            <!-- Data Table -->
+            <div class="data-table-box">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th class="sortable">Nama Kegiatan</th>
+                    <th class="sortable">Kategori</th>
+                    <th class="sortable">Tingkat Kompetisi</th>
+                    <th class="sortable">Tanggal</th>
+                    <th class="sortable">Tingkat</th>
+                    <th>Status Validasi</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Lomba Pemrograman Java 2022</td>
+                    <td>Akademik</td>
+                    <td>Kampus</td>
+                    <td>12/09/2022</td>
+                    <td>1</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(1)">
+                        <span id="toggle-1" class="detail-toggle">▼</span> Lihat
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-1" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Akademik</div>
 
-                <div class="form-group">
-                  <label for="jenis-kegiatan" class="form-label"
-                    >Jenis Kegiatan</label
-                  >
-                  <select
-                    id="jenis-kegiatan"
-                    class="form-select"
-                    aria-label="Pilih jenis kegiatan"
-                  >
-                    <option value="">Pilih jenis kegiatan</option>
-                    <option value="lomba">Lomba</option>
-                    <option value="kompetisi">Kompetisi</option>
-                    <option value="seminar">Seminar</option>
-                    <option value="workshop">Workshop</option>
-                  </select>
-                </div>
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">Telkom University</div>
 
-                <div class="form-group">
-                  <label for="tingkat-kegiatan" class="form-label"
-                    >Tingkat Kegiatan</label
-                  >
-                  <select
-                    id="tingkat-kegiatan"
-                    class="form-select"
-                    aria-label="Pilih tingkat kegiatan"
-                  >
-                    <option value="">Pilih tingkat kegiatan</option>
-                    <option value="kampus">Kampus</option>
-                    <option value="nasional">Nasional</option>
-                    <option value="internasional">Internasional</option>
-                  </select>
-                </div>
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank">📄 Lomba_123.pdf</a>
+                          </div>
+                        </div>
 
-                <div class="form-group">
-                  <label for="keikutsertaan" class="form-label"
-                    >Keikutsertaan</label
-                  >
-                  <select
-                    id="keikutsertaan"
-                    class="form-select"
-                    aria-label="Pilih keikutsertaan"
-                  >
-                    <option value="">Pilih keikutsertaan</option>
-                    <option value="individu">Individu</option>
-                    <option value="tim">Tim</option>
-                  </select>
-                </div>
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Data prestasi telah diverifikasi dan sesuai dengan
+                              dokumen pendukung.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Kompetisi Desain UI/UX Internasional</td>
+                    <td>Non-Akademik</td>
+                    <td>Internasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(2)">
+                        <span id="toggle-2" class="detail-toggle">▼</span> Lihat
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-2" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Non-Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            International Design Foundation
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 Sertifikat_UIUX.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Prestasi internasional diverifikasi. Dokumen
+                              sertifikat lengkap.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Hackathon Smart City 2024</td>
+                    <td>Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(3)">
+                        <span id="toggle-3" class="detail-toggle">▼</span> Lihat
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-3" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Kementerian Komunikasi dan Informatika
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 Hackathon_Certificate.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Hackathon tingkat nasional, dokumentasi lengkap
+                              dan terverifikasi.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Olimpiade Matematika Nasional</td>
+                    <td>Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(4)">
+                        <span id="toggle-4" class="detail-toggle">▼</span> Lihat
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-4" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Kementerian Pendidikan dan Kebudayaan
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 Olimpiade_Math.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Prestasi olimpiade nasional, sertifikat resmi
+                              telah diverifikasi.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Kompetisi Debat Bahasa Inggris</td>
+                    <td>Non-Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(5)">
+                        <span id="toggle-5" class="detail-toggle">▼</span> Lihat
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-5" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Non-Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            British Council Indonesia
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 Debate_Certificate.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Kompetisi debat nasional, dokumentasi lengkap.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Lomba Karya Tulis Ilmiah 2024</td>
+                    <td>Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(6)">
+                        <span id="toggle-6" class="detail-toggle">▼</span> Lihat
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-6" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Institut Teknologi Bandung
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 KTI_Sertifikat.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Karya tulis ilmiah nasional, paper dan sertifikat
+                              terverifikasi.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Festival Film Pendek Mahasiswa</td>
+                    <td>Non-Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(7)">
+                        <span id="toggle-7" class="detail-toggle">▼</span> Lihat
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-7" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Non-Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Kementerian Pendidikan dan Kebudayaan
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank">📄 Film_Festival.pdf</a>
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Festival film nasional, dokumentasi video dan
+                              sertifikat lengkap.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Kompetisi Robotika Indonesia 2024</td>
+                    <td>Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(8)">
+                        <span id="toggle-8" class="detail-toggle">▼</span> Lihat
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-8" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">Universitas Indonesia</div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank">📄 Robotika_Cert.pdf</a>
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Kompetisi robotika nasional, dokumentasi teknis
+                              dan sertifikat terverifikasi.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Turnamen E-Sports Mobile Legends</td>
+                    <td>Non-Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(9)">
+                        <span id="toggle-9" class="detail-toggle">▼</span> Lihat
+                        Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-9" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Non-Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Asosiasi E-Sports Indonesia
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 ESports_Certificate.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Turnamen e-sports nasional, sertifikat resmi dari
+                              penyelenggara.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Lomba Fotografi Jurnalistik 2024</td>
+                    <td>Non-Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(10)">
+                        <span id="toggle-10" class="detail-toggle">▼</span>
+                        Lihat Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-10" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Non-Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Persatuan Wartawan Indonesia
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 Photography_Award.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Lomba fotografi jurnalistik nasional, portfolio
+                              dan sertifikat lengkap.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Kompetisi Business Plan Startup</td>
+                    <td>Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(11)">
+                        <span id="toggle-11" class="detail-toggle">▼</span>
+                        Lihat Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-11" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">Kementerian BUMN</div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 BusinessPlan_Certificate.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Kompetisi business plan nasional, proposal dan
+                              pitch deck terverifikasi.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>Festival Seni Tari Nusantara 2024</td>
+                    <td>Non-Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(12)">
+                        <span id="toggle-12" class="detail-toggle">▼</span>
+                        Lihat Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-12" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Non-Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Kementerian Pendidikan dan Kebudayaan
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 Tari_Certificate.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Festival seni tari nasional, dokumentasi video dan
+                              sertifikat lengkap.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                    <td>Olimpiade Fisika Tingkat Nasional</td>
+                    <td>Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(13)">
+                        <span id="toggle-13" class="detail-toggle">▼</span>
+                        Lihat Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-13" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Himpunan Fisika Indonesia
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 Olimpiade_Fisika.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Olimpiade fisika nasional, sertifikat resmi
+                              terverifikasi.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Lomba Desain Grafis Digital 2024</td>
+                    <td>Non-Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(14)">
+                        <span id="toggle-14" class="detail-toggle">▼</span>
+                        Lihat Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-14" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Non-Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Asosiasi Desainer Grafis Indonesia
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 DesainGrafis_Award.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Lomba desain grafis nasional, portfolio dan
+                              sertifikat lengkap.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>Kompetisi Inovasi Teknologi Hijau</td>
+                    <td>Akademik</td>
+                    <td>Nasional</td>
+                    <td>04/05/2024</td>
+                    <td>3</td>
+                    <td>
+                      <div class="status-badge">
+                        <div class="status-dot"></div>
+                        <span>Tervalidasi</span>
+                      </div>
+                    </td>
+                    <td>
+                      <button class="action-btn" onclick="toggleDetail(15)">
+                        <span id="toggle-15" class="detail-toggle">▼</span>
+                        Lihat Detail
+                      </button>
+                    </td>
+                  </tr>
+                  <tr id="detail-15" class="detail-row">
+                    <td colspan="8">
+                      <div class="detail-content">
+                        <div class="detail-grid">
+                          <div class="detail-label">Kategori</div>
+                          <div class="detail-value">Akademik</div>
+
+                          <div class="detail-label">Penyelenggara</div>
+                          <div class="detail-value">
+                            Kementerian Lingkungan Hidup
+                          </div>
+
+                          <div class="detail-label">Dokumen</div>
+                          <div class="detail-value">
+                            <a href="#" target="_blank"
+                              >📄 GreenTech_Innovation.pdf</a
+                            >
+                          </div>
+                        </div>
+
+                        <div class="detail-notes">
+                          <div class="notes-header">
+                            <div class="notes-label">Catatan</div>
+                            <div class="notes-title">Catatan</div>
+                          </div>
+                          <div class="notes-content">
+                            <div class="notes-reviewer">Peninjauan</div>
+                            <div class="notes-text">
+                              Kompetisi inovasi teknologi hijau, proposal dan
+                              prototype terverifikasi.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="detail-actions">
+                          <button
+                            class="btn-delete"
+                            onclick="alert('Hapus prestasi')"
+                          >
+                            🗑️ Hapus
+                          </button>
+                          <button
+                            class="btn-edit"
+                            onclick="alert('Edit prestasi')"
+                          >
+                            ✏️ Edit
+                          </button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+              <button class="page-nav">Prev</button>
+              <div class="pagination-pages">
+                <button class="page-btn active">01</button>
+                <button class="page-btn">02</button>
+                <button class="page-btn">03</button>
+                <button class="page-btn">04</button>
+                <button class="page-btn">05</button>
+                <span class="pagination-ellipsis">...</span>
+                <button class="page-btn">24</button>
               </div>
-
-              <!-- Deskripsi -->
-              <div class="form-group">
-                <label for="deskripsi" class="form-label">Deskripsi</label>
-                <textarea
-                  id="deskripsi"
-                  class="form-textarea"
-                  placeholder="Tulis deskripsi..."
-                  aria-label="Tulis deskripsi kegiatan"
-                ></textarea>
-              </div>
-
-              <!-- Buttons -->
-              <div class="btn-container">
-                <button type="button" class="btn btn-secondary">Batal</button>
-                <button type="submit" class="btn btn-primary">Validasi</button>
-              </div>
-            </form>
+              <button class="page-nav">Next</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <script src="sidebar.js"></script>
+    <script>
+      function toggleDetail(id) {
+        const detailRow = document.getElementById("detail-" + id);
+        const toggleIcon = document.getElementById("toggle-" + id);
+
+        if (detailRow.classList.contains("show")) {
+          detailRow.classList.remove("show");
+          toggleIcon.classList.remove("open");
+        } else {
+          detailRow.classList.add("show");
+          toggleIcon.classList.add("open");
+        }
+      }
+    </script>
   </body>
 </html>

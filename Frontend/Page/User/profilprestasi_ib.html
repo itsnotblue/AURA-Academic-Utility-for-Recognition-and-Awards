@@ -8,6 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="sidebar.css" />
     <style>
       /* Root colors and variables */
       :root {
@@ -48,88 +49,6 @@
         background: white;
         margin-left: 296px;
         padding: 44px 40px;
-      }
-
-      /* Sidebar - z-index: 10 */
-      .sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 296px;
-        height: 100vh;
-        background: var(--panel);
-        padding: 32px 24px;
-        overflow-y: auto;
-        z-index: 10;
-      }
-
-      .logo {
-        display: block;
-        width: 109px;
-        height: 66px;
-        margin: 0 auto 64px;
-      }
-
-      .menu-section {
-        margin-bottom: 32px;
-      }
-
-      .menu-section-title {
-        color: #b11216;
-        font-size: 16px;
-        font-weight: 400;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 12px;
-      }
-
-      .nav-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 10px 8px;
-        margin: 8px 0;
-        color: var(--muted);
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-        text-decoration: none;
-        position: relative;
-      }
-
-      .nav-item:hover {
-        background: rgba(236, 29, 37, 0.05);
-        color: var(--accent);
-        transform: translateX(4px);
-      }
-
-      .nav-item.active {
-        color: var(--accent);
-        font-weight: 500;
-      }
-
-      .nav-item.active::before {
-        content: "";
-        display: inline-block;
-        width: 4px;
-        height: 24px;
-        background: linear-gradient(
-          180deg,
-          var(--accent) 0%,
-          var(--accent-dark) 100%
-        );
-        border-radius: 2px;
-        margin-left: -8px;
-        margin-right: 4px;
-      }
-
-      .nav-icon {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        object-fit: contain;
-        flex-shrink: 0;
       }
 
       /* Profile Section - z-index: 5 */
@@ -831,33 +750,7 @@
   <body>
     <div class="page-container">
       <!-- Sidebar -->
-      <aside class="sidebar">
-        <img class="logo" src="../../png/Aura_logo.png" alt="Logo" />
-
-        <div class="menu-section">
-          <div class="menu-section-title">Menu</div>
-          <a href="homepage.html" class="nav-item">
-            <img src="../../png/dashboard.png" alt="" class="nav-icon" />
-            Dashboard
-          </a>
-          <a href="dataprestasi_rm.html" class="nav-item">
-            <img src="../../png/dataprestasi.png" alt="" class="nav-icon" />
-            Data Prestasi
-          </a>
-          <a href="profilprestasi.html" class="nav-item active">
-            <img src="../../png/profilprestasi_red.png" alt="" class="nav-icon" />
-            Profil Prestasi
-          </a>
-        </div>
-
-        <div class="menu-section">
-          <div class="menu-section-title">Umum</div>
-          <a href="../landingpage.html" class="nav-item">
-            <img src="../../png/keluar.png" alt="" class="nav-icon" />
-            Keluar
-          </a>
-        </div>
-      </aside>
+      <div id="sidebar-placeholder"></div>
 
       <!-- Main Content Container -->
       <div class="container">
@@ -942,11 +835,7 @@
         <!-- Prestasi Badges with Medals -->
         <div class="medal-icon medal-1">
           <div class="medal-inner gold">
-            <img
-              src="../../png/totalprestasi.png"
-              alt=""
-             
-            />
+            <img src="../../png/totalprestasi.png" alt="" />
           </div>
         </div>
         <div class="prestasi-badge badge-1">
@@ -957,11 +846,7 @@
 
         <div class="medal-icon medal-2">
           <div class="medal-inner silver">
-            <img
-              src="../../png/totalprestasi.png"
-              alt=""
-             
-            />
+            <img src="../../png/totalprestasi.png" alt="" />
           </div>
         </div>
         <div class="prestasi-badge badge-2">
@@ -972,11 +857,7 @@
 
         <div class="medal-icon medal-3">
           <div class="medal-inner bronze">
-            <img
-              src="../../png/totalprestasi.png"
-              alt=""
-             
-            />
+            <img src="../../png/totalprestasi.png" alt="" />
           </div>
         </div>
         <div class="prestasi-badge badge-3">
@@ -987,11 +868,7 @@
         <div class="grafik-box">
           <div class="grafik-header">
             <div class="grafik-icon">
-              <img
-                src="../../png/distribusiprestasi.png"
-                alt=""
-               
-              />
+              <img src="../../png/distribusiprestasi.png" alt="" />
             </div>
             <div class="grafik-title">Distribusi Prestasi</div>
           </div>
@@ -1004,10 +881,7 @@
           <div class="legend">
             <div class="legend-item">
               <div class="legend-label">
-                <div
-                  class="legend-color"
-                 
-                ></div>
+                <div class="legend-color"></div>
                 <div class="legend-text">Akademik</div>
               </div>
               <div class="legend-value">69</div>
@@ -1026,44 +900,28 @@
         <div class="prestasi-dicapai-box">
           <div class="skill-item skill-desain">
             <div class="skill-icon">
-              <img
-                src="../../png/desain.png"
-                alt=""
-               
-              />
+              <img src="../../png/desain.png" alt="" />
             </div>
             <div class="skill-name">Desain</div>
             <div class="skill-count">4</div>
           </div>
           <div class="skill-item skill-speaking">
             <div class="skill-icon">
-              <img
-                src="../../png/publicspeak.png"
-                alt=""
-               
-              />
+              <img src="../../png/publicspeak.png" alt="" />
             </div>
             <div class="skill-name">Public Speaking</div>
             <div class="skill-count">3</div>
           </div>
           <div class="skill-item skill-research">
             <div class="skill-icon">
-              <img
-                src="../../png/research.png"
-                alt=""
-               
-              />
+              <img src="../../png/research.png" alt="" />
             </div>
             <div class="skill-name">Research</div>
             <div class="skill-count">2</div>
           </div>
           <div class="skill-item skill-writing">
             <div class="skill-icon">
-              <img
-                src="../../png/writing.png"
-                alt=""
-               
-              />
+              <img src="../../png/writing.png" alt="" />
             </div>
             <div class="skill-name">Writing</div>
             <div class="skill-count">2</div>
@@ -1141,11 +999,7 @@
         <div class="score-card">
           <div class="score-header">
             <div class="score-icon-bg">
-              <img
-                src="../../png/totalprestasi.png"
-                alt=""
-               
-              />
+              <img src="../../png/totalprestasi.png" alt="" />
             </div>
             <div class="score-title">Skor Indeks Prestasi AURA</div>
           </div>
@@ -1157,5 +1011,6 @@
         </div>
       </div>
     </div>
+    <script src="sidebar.js"></script>
   </body>
 </html>

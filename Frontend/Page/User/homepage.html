@@ -8,6 +8,7 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="sidebar.css" />
     <style>
       /* Root colors and variables */
       :root {
@@ -41,79 +42,6 @@
         position: relative;
         background: var(--bg);
         display: flex;
-      }
-
-      /* ===== SIDEBAR ===== */
-      .sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 296px;
-        height: 100vh;
-        background: var(--panel);
-        padding: 32px 24px;
-        overflow-y: auto;
-      }
-      .brand {
-        display: block;
-        width: 109px;
-        height: 66px;
-        margin: 0 auto 64px;
-      }
-      .menu-section {
-        margin-bottom: 32px;
-      }
-      .menu-section-title {
-        color: var(--accent);
-        font-size: 14px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        margin-bottom: 12px;
-      }
-      .nav-item {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 10px 8px;
-        margin: 8px 0;
-        color: var(--muted);
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-        text-decoration: none;
-      }
-      .nav-item:hover {
-        background: rgba(236, 29, 37, 0.05);
-        color: var(--accent);
-        transform: translateX(4px);
-      }
-      .nav-item.active {
-        color: var(--accent);
-        font-weight: 500;
-      }
-      .nav-item.active::before {
-        content: "";
-        display: inline-block;
-        width: 4px;
-        height: 24px;
-        background: linear-gradient(
-          180deg,
-          var(--accent) 0%,
-          var(--accent-dark) 100%
-        );
-        border-radius: 2px;
-        margin-left: -8px;
-        margin-right: 4px;
-      }
-      .nav-icon {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
       }
 
       /* ===== MAIN CONTENT ===== */
@@ -528,33 +456,7 @@
   <body>
     <div class="page-container">
       <!-- Sidebar -->
-      <aside class="sidebar">
-        <img class="brand" src="../../png/Aura_logo.png" alt="Aura Logo" />
-
-        <div class="menu-section">
-          <div class="menu-section-title">Menu</div>
-          <a href="homepage.html" class="nav-item active">
-            <img src="../../png/dashboard_red.png" alt="" class="nav-icon" />
-            Dashboard
-          </a>
-          <a href="dataprestasi_rm.html" class="nav-item">
-            <img src="../../png/dataprestasi.png" alt="" class="nav-icon" />
-            Data Prestasi
-          </a>
-          <a href="profilprestasi.html" class="nav-item">
-            <img src="../../png/profilprestasi.png" alt="" class="nav-icon" />
-            Profil Prestasi
-          </a>
-        </div>
-
-        <div class="menu-section">
-          <div class="menu-section-title">Umum</div>
-          <div class="nav-item">
-            <img src="../../png/keluar.png" alt="" class="nav-icon" />
-            Keluar
-          </div>
-        </div>
-      </aside>
+      <div id="sidebar-placeholder"></div>
 
       <!-- Main Content -->
       <main class="main-wrapper">
@@ -724,5 +626,6 @@
         </div>
       </main>
     </div>
+    <script src="sidebar.js"></script>
   </body>
 </html>

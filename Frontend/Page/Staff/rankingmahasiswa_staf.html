@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
@@ -10,6 +10,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="sidebar.css" />
     <style>
       :root {
         --bg: white;
@@ -37,77 +38,6 @@
       .page-container {
         display: flex;
         min-height: 100vh;
-      }
-
-      /* Sidebar Styles */
-      .sidebar {
-        width: 296px;
-        min-height: 100vh;
-        background: var(--panel);
-        position: fixed;
-        left: 0;
-        top: 0;
-        z-index: 100;
-        display: flex;
-        flex-direction: column;
-        padding: 36px 32px;
-      }
-
-      .logo {
-        width: 109px;
-        height: 66px;
-        margin: 0 auto 40px;
-        display: block;
-      }
-
-      .menu-section {
-        margin-bottom: 40px;
-      }
-
-      .menu-section-title {
-        color: #b11216;
-        font-size: 16px;
-        font-weight: 400;
-        margin-bottom: 24px;
-      }
-
-      .nav-item {
-        display: flex;
-        align-items: center;
-        padding: 12px 0;
-        color: var(--gray-light);
-        font-size: 16px;
-        font-weight: 400;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        cursor: pointer;
-      }
-
-      .nav-item:hover {
-        color: var(--accent);
-      }
-
-      .nav-item.active {
-        color: var(--accent);
-        font-weight: 500;
-        position: relative;
-      }
-
-      .nav-item.active::before {
-        content: "";
-        position: absolute;
-        left: -32px;
-        top: 0;
-        width: 4px;
-        height: 100%;
-        background: var(--accent);
-        border-radius: 0 4px 4px 0;
-      }
-
-      .nav-icon {
-        width: 24px;
-        height: 24px;
-        margin-right: 12px;
       }
 
       /* Main Content */
@@ -535,41 +465,7 @@
   <body>
     <div class="page-container">
       <!-- Sidebar -->
-      <aside class="sidebar">
-        <img class="logo" src="../../png/Aura_logo.png" alt="Logo" />
-
-        <div class="menu-section">
-          <div class="menu-section-title">MENU</div>
-          <a href="homepage_staf.html" class="nav-item">
-            <img src="../../png/dashboard.png" alt="" class="nav-icon" />
-            Dashboard
-          </a>
-          <a href="validasiprestasi_staf.html" class="nav-item">
-            <img src="../../png/dataprestasi.png" alt="" class="nav-icon" />
-            Validasi Prestasi
-          </a>
-          <a href="rankingmahasiswa_staf.html" class="nav-item active">
-            <img src="../../png/profilprestasi_red.png" alt="" class="nav-icon" />
-            Rangking Mahasiswa
-          </a>
-          <a href="#" class="nav-item">
-            <img src="../../png/riwayatverif.png" alt="" class="nav-icon" />
-            Riwayat Verifikasi
-          </a>
-        </div>
-
-        <div class="menu-section">
-          <div class="menu-section-title">UMUM</div>
-          <a href="profil_staf.html" class="nav-item">
-            <img src="../../png/nama_pp.png" alt="" class="nav-icon" />
-            Profil Staf
-          </a>
-          <a href="../landingpage.html" class="nav-item">
-            <img src="../../png/keluar.png" alt="" class="nav-icon" />
-            Keluar
-          </a>
-        </div>
-      </aside>
+      <div id="sidebar-placeholder"></div>
 
       <!-- Main Content -->
       <div class="main-content">
@@ -832,5 +728,6 @@
           }
         });
     </script>
+    <script src="sidebar.js"></script>
   </body>
 </html>
