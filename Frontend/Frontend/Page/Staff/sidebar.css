@@ -1,0 +1,88 @@
+/* Sidebar Styles for Staff Pages */
+:root {
+  --bg: #ffffff;
+  --panel: #fafafa;
+  --accent: #ec1d25;
+  --accent-dark: #861015;
+  --muted: #a6a8a7;
+  --text-dark: #58585a;
+  --text-light: #8c8c8c;
+  --border: #eaecf0;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 296px;
+  height: 100vh;
+  background: var(--panel);
+  padding: 32px 24px;
+  overflow-y: auto;
+  z-index: 10;
+}
+
+.logo {
+  display: block;
+  width: 109px;
+  height: 66px;
+  margin: 0 auto 64px;
+}
+
+.menu-section {
+  margin-bottom: 32px;
+}
+
+.menu-section-title {
+  color: #b11216;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 8px;
+  margin: 8px 0;
+  color: var(--muted);
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+}
+
+.nav-item:hover {
+  background: rgba(236, 29, 37, 0.05);
+  color: var(--accent);
+  transform: translateX(4px);
+}
+
+.nav-item.active {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.nav-item.active::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(135deg, #ec1d25 0%, #861015 100%);
+  border-radius: 2px;
+  margin-left: -8px;
+  margin-right: 4px;
+}
+
+.nav-icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}

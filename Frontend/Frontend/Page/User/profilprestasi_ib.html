@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AURA — Profil Prestasi - Informasi Beasiswa</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="sidebar.css" />
+    <style>
+      /* Root colors and variables */
+      :root {
+        --bg: #ffffff;
+        --panel: #fafafa;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --muted: #a6a8a7;
+        --text-dark: #58585a;
+        --text-light: #8c8c8c;
+        --border: #eaecf0;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text-dark);
+      }
+
+      .page-container {
+        width: 100%;
+        position: relative;
+        background: var(--bg);
+        display: flex;
+      }
+
+      .container {
+        width: calc(100vw - 296px);
+        max-width: 1200px;
+        min-height: 1024px;
+        position: relative;
+        background: white;
+        margin-left: 296px;
+        padding: 44px 40px;
+      }
+
+      /* Profile Section - z-index: 5 */
+      .profile-banner {
+        width: 344px;
+        height: 142px;
+        left: 34px;
+        top: 44px;
+        position: absolute;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #ff8a8a 0%, #ffa5a5 100%);
+        z-index: 5;
+      }
+
+      .profile-card {
+        width: 344px;
+        height: 486px;
+        left: 34px;
+        top: 152px;
+        position: absolute;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+        z-index: 6;
+      }
+
+      .avatar-bg {
+        width: 110px;
+        height: 110px;
+        left: 151px;
+        top: 131px;
+        position: absolute;
+        background: #fafafa;
+        border-radius: 81px;
+        z-index: 7;
+      }
+
+      .avatar {
+        width: 97px;
+        height: 97px;
+        left: 158px;
+        top: 138px;
+        position: absolute;
+        background: #b8dff2;
+        border-radius: 81px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        z-index: 8;
+      }
+
+      .profile-name {
+        left: 120px;
+        top: 247px;
+        position: absolute;
+        width: 174px;
+        text-align: center;
+        color: #58585a;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 28.8px;
+        z-index: 7;
+      }
+
+      .profile-role {
+        left: 120px;
+        top: 284px;
+        position: absolute;
+        width: 174px;
+        text-align: center;
+        color: #58585a;
+        font-size: 16px;
+        font-weight: 400;
+        z-index: 7;
+      }
+
+      .info-divider {
+        width: 297px;
+        left: 57px;
+        top: 356px;
+        position: absolute;
+        border-top: 1px solid #d9d9d9;
+        z-index: 7;
+      }
+
+      .info-title {
+        left: 59px;
+        top: 329px;
+        position: absolute;
+        color: #58585a;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+        z-index: 7;
+      }
+
+      /* Info Items */
+      .info-row {
+        position: absolute;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 297px;
+        left: 57px;
+        z-index: 7;
+      }
+
+      .info-row-1 {
+        top: 383px;
+      }
+      .info-row-2 {
+        top: 434px;
+      }
+      .info-row-3 {
+        top: 485px;
+      }
+      .info-row-4 {
+        top: 536px;
+      }
+      .info-row-5 {
+        top: 587px;
+      }
+
+      .info-label-group {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .info-icon {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        object-fit: contain;
+      }
+
+      .info-label {
+        color: #d9d9d9;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+      }
+
+      .info-value {
+        color: #58585a;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+      }
+
+      /* Stats Container Background - z-index: 1 */
+      .stats-container {
+        width: 714px;
+        height: 964px;
+        left: 402px;
+        top: 44px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        z-index: 1;
+      }
+
+      /* Section Titles - z-index: 3 */
+      .section-title {
+        position: absolute;
+        color: #58585a;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+        z-index: 3;
+      }
+
+      .title-prestasi-terbaik {
+        left: 416px;
+        top: 143px;
+      }
+
+      .title-grafik {
+        left: 416px;
+        top: 354px;
+      }
+
+      .title-rekomendasi {
+        left: 678px;
+        top: 354px;
+      }
+
+      .title-prestasi-dicapai {
+        left: 416px;
+        top: 707px;
+      }
+
+      /* Tabs Section - z-index: 2 */
+      .tabs-bg {
+        width: 685px;
+        height: 61px;
+        left: 416px;
+        top: 58px;
+        position: absolute;
+        background: #921217;
+        border-radius: 12px;
+        z-index: 2;
+      }
+
+      .tab-active-bg {
+        width: 211px;
+        height: 48px;
+        left: 878px;
+        top: 65px;
+        position: absolute;
+        background: rgba(194, 46, 23, 0.5);
+        border-radius: 8px;
+        z-index: 3;
+      }
+
+      .tab-text {
+        position: absolute;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+        cursor: pointer;
+        z-index: 4;
+        text-decoration: none;
+      }
+
+      .tab-text:hover {
+        opacity: 0.9;
+      }
+
+      .tab-1 {
+        left: 458px;
+        top: 79px;
+      }
+      .tab-2 {
+        left: 698px;
+        top: 79px;
+      }
+      .tab-3 {
+        left: 911px;
+        top: 79px;
+      }
+
+      /* Prestasi Badge */
+      .prestasi-badge {
+        width: 643px;
+        padding: 12px;
+        position: absolute;
+        background: #ec1d25;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 3;
+      }
+
+      .badge-1 {
+        left: 458px;
+        top: 174px;
+      }
+
+      .badge-2 {
+        left: 458px;
+        top: 230px;
+      }
+
+      .badge-3 {
+        left: 458px;
+        top: 286px;
+      }
+
+      .badge-text {
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 19.2px;
+      }
+
+      .medal-icon {
+        width: 35px;
+        height: 35px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        z-index: 3;
+      }
+
+      .medal-1 {
+        left: 416px;
+        top: 178px;
+      }
+
+      .medal-2 {
+        left: 416px;
+        top: 234px;
+      }
+
+      .medal-3 {
+        left: 416px;
+        top: 290px;
+      }
+
+      .medal-inner {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .gold {
+        background: #ffcc00;
+      }
+
+      .silver {
+        background: #8e8e93;
+      }
+
+      .bronze {
+        background: #b15816;
+      }
+
+      .connector-line {
+        width: 2px;
+        height: 17px;
+        background: #ec1d25;
+        position: absolute;
+        left: 433px;
+        z-index: 3;
+      }
+
+      .line-1 {
+        top: 215px;
+      }
+
+      .line-2 {
+        top: 271px;
+      }
+
+      /* Grafik Section */
+      .grafik-box {
+        width: 238px;
+        height: 298px;
+        left: 416px;
+        top: 385px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        padding: 14px;
+        z-index: 2;
+      }
+
+      .grafik-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .grafik-icon {
+        width: 28px;
+        height: 28px;
+        background: #ec1d25;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .grafik-title {
+        color: #ec1d25;
+        font-size: 16px;
+        font-family: Poppins;
+        font-weight: 400;
+      }
+
+      .pie-chart {
+        width: 139px;
+        height: 139px;
+        margin: 0 auto 20px;
+        position: relative;
+      }
+
+      .pie-bg {
+        width: 139px;
+        height: 139px;
+        background: #d9d9d9;
+        border-radius: 50%;
+        position: absolute;
+      }
+
+      .pie-fill {
+        width: 139px;
+        height: 139px;
+        background: linear-gradient(38deg, #ec1d25 0%, #861015 100%);
+        border-radius: 50%;
+        position: absolute;
+        clip-path: polygon(
+          50% 50%,
+          50% 0%,
+          100% 0%,
+          100% 100%,
+          0% 100%,
+          0% 31%
+        );
+      }
+
+      .pie-label {
+        position: absolute;
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .pie-label-akademik {
+        top: 60px;
+        right: 10px;
+      }
+
+      .pie-label-non {
+        bottom: 30px;
+        left: 20px;
+      }
+
+      .legend {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: space-between;
+      }
+
+      .legend-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .legend-color {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+      }
+
+      .legend-text {
+        color: #615e83;
+        font-size: 10px;
+        font-family: Poppins;
+        font-weight: 700;
+        line-height: 28px;
+      }
+
+      .legend-value {
+        color: #9291a5;
+        font-size: 10px;
+        font-family: Poppins;
+        font-weight: 400;
+        line-height: 20px;
+      }
+
+      /* Prestasi Dicapai Section */
+      .prestasi-dicapai-box {
+        width: 238px;
+        left: 416px;
+        top: 738px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+        border-radius: 8px;
+        padding: 12px;
+        z-index: 2;
+      }
+
+      .skill-item {
+        width: 100%;
+        padding: 8px 9px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+
+      .skill-desain {
+        background: #6155f5;
+      }
+
+      .skill-speaking {
+        background: #ff8d28;
+      }
+
+      .skill-research {
+        background: #ac7f5e;
+      }
+
+      .skill-writing {
+        background: #0088ff;
+      }
+
+      .skill-icon {
+        width: 28px;
+        height: 28px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .skill-name {
+        flex: 1;
+        color: white;
+        font-size: 16px;
+        font-weight: 400;
+      }
+
+      .skill-count {
+        color: white;
+        font-size: 16px;
+        font-weight: 700;
+        margin-right: 8px;
+      }
+
+      /* Rekomendasi Beasiswa Section */
+      .rekomendasi-box {
+        width: 435px;
+        height: 609px;
+        left: 666px;
+        top: 385px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+        border-radius: 8px;
+        padding: 12px;
+        overflow-y: auto;
+        z-index: 2;
+      }
+
+      .rekomendasi-box::-webkit-scrollbar {
+        width: 9px;
+      }
+
+      .rekomendasi-box::-webkit-scrollbar-track {
+        background: #f5f5f5;
+        border-radius: 4.5px;
+      }
+
+      .rekomendasi-box::-webkit-scrollbar-thumb {
+        background: #cfd3d4;
+        border-radius: 4.5px;
+      }
+
+      .beasiswa-card {
+        width: 100%;
+        height: 148px;
+        background: white;
+        border-radius: 6px;
+        border: 0.5px #d9d9d9 solid;
+        margin-bottom: 12px;
+        overflow: hidden;
+      }
+
+      .beasiswa-image {
+        width: 100%;
+        height: 110px;
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 12px;
+        position: relative;
+      }
+
+      .beasiswa-card:nth-child(2) .beasiswa-image {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      }
+
+      .beasiswa-card:nth-child(3) .beasiswa-image {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      }
+
+      .beasiswa-card:nth-child(4) .beasiswa-image {
+        background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+      }
+
+      .beasiswa-title {
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 19.2px;
+        margin-bottom: 8px;
+      }
+
+      .beasiswa-desc {
+        color: white;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 12px;
+      }
+
+      .beasiswa-footer {
+        padding: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .beasiswa-status {
+        color: #58585a;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 12px;
+      }
+
+      .beasiswa-link {
+        padding: 2px 8px;
+        background: linear-gradient(38deg, #ec1d25 0%, #861015 100%);
+        border-radius: 6px;
+        color: white;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 18px;
+        text-align: center;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .beasiswa-link:hover {
+        opacity: 0.9;
+      }
+
+      /* Score Card - z-index: 5 */
+      .score-card {
+        width: 344px;
+        padding: 23px 22px;
+        left: 34px;
+        top: 662px;
+        position: absolute;
+        background: white;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 5;
+      }
+
+      .score-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .score-icon-bg {
+        width: 28px;
+        height: 28px;
+        background: #b20007;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .score-title {
+        color: #404040;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .score-number {
+        font-size: 36px;
+        font-weight: 600;
+        line-height: 43.2px;
+        color: #404040;
+      }
+
+      .score-desc {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 19.2px;
+        color: #404040;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Sidebar -->
+      <div id="sidebar-placeholder"></div>
+
+      <!-- Main Content Container -->
+      <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-banner"></div>
+        <div class="profile-card"></div>
+        <div class="avatar-bg"></div>
+        <div class="avatar">👨</div>
+        <div class="profile-name">Alexa Adriana</div>
+        <div class="profile-role">Mahasiswa</div>
+
+        <div class="info-divider"></div>
+        <div class="info-title">Informasi</div>
+
+        <!-- Info Rows -->
+        <div class="info-row info-row-1">
+          <div class="info-label-group">
+            <img src="../../png/nama_pp.png" alt="" class="info-icon" />
+            <div class="info-label">Nama</div>
+          </div>
+          <div class="info-value">Alexa Adriana</div>
+        </div>
+
+        <div class="info-row info-row-2">
+          <div class="info-label-group">
+            <img src="../../png/nim_pp.png" alt="" class="info-icon" />
+            <div class="info-label">NIM</div>
+          </div>
+          <div class="info-value">1301223019</div>
+        </div>
+
+        <div class="info-row info-row-3">
+          <div class="info-label-group">
+            <img src="../../png/ps_pp.png" alt="" class="info-icon" />
+            <div class="info-label">Program Studi</div>
+          </div>
+          <div class="info-value">S1-Informatika</div>
+        </div>
+
+        <div class="info-row info-row-4">
+          <div class="info-label-group">
+            <img src="../../png/fakultasi_pp.png" alt="" class="info-icon" />
+            <div class="info-label">Fakultas</div>
+          </div>
+          <div class="info-value">Informatika</div>
+        </div>
+
+        <div class="info-row info-row-5">
+          <div class="info-label-group">
+            <img src="../../png/tahun_pp.png" alt="" class="info-icon" />
+            <div class="info-label">Tahun Angkatan</div>
+          </div>
+          <div class="info-value">2022</div>
+        </div>
+
+        <!-- Stats Container -->
+        <div class="stats-container"></div>
+
+        <!-- Section Titles -->
+        <div class="section-title title-prestasi-terbaik">Prestasi Terbaik</div>
+        <div class="section-title title-grafik">
+          Grafik Perkembangan Prestasi
+        </div>
+        <div class="section-title title-rekomendasi">Rekomendasi Beasiswa</div>
+        <div class="section-title title-prestasi-dicapai">
+          Prestasi yang Banyak Dicapai
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-bg"></div>
+        <div class="tab-active-bg"></div>
+        <a href="profilprestasi.html" class="tab-text tab-1"
+          >Ringkasan Prestasi</a
+        >
+        <a href="profilprestasi_sv.html" class="tab-text tab-2"
+          >Status Verifikasi</a
+        >
+        <a href="profilprestasi_ib.html" class="tab-text tab-3"
+          >Informasi Beasiswa</a
+        >
+
+        <!-- Prestasi Badges with Medals -->
+        <div class="medal-icon medal-1">
+          <div class="medal-inner gold">
+            <img src="../../png/totalprestasi.png" alt="" />
+          </div>
+        </div>
+        <div class="prestasi-badge badge-1">
+          <div class="badge-text">Juara 1 Lomba UI/UX Nasional 2025.</div>
+        </div>
+
+        <div class="connector-line line-1"></div>
+
+        <div class="medal-icon medal-2">
+          <div class="medal-inner silver">
+            <img src="../../png/totalprestasi.png" alt="" />
+          </div>
+        </div>
+        <div class="prestasi-badge badge-2">
+          <div class="badge-text">Finalis Olimpide Sains Nasional.</div>
+        </div>
+
+        <div class="connector-line line-2"></div>
+
+        <div class="medal-icon medal-3">
+          <div class="medal-inner bronze">
+            <img src="../../png/totalprestasi.png" alt="" />
+          </div>
+        </div>
+        <div class="prestasi-badge badge-3">
+          <div class="badge-text">Juara 2 essay Telkom University.</div>
+        </div>
+
+        <!-- Grafik Perkembangan Prestasi -->
+        <div class="grafik-box">
+          <div class="grafik-header">
+            <div class="grafik-icon">
+              <img src="../../png/distribusiprestasi.png" alt="" />
+            </div>
+            <div class="grafik-title">Distribusi Prestasi</div>
+          </div>
+          <div class="pie-chart">
+            <div class="pie-bg"></div>
+            <div class="pie-fill"></div>
+            <div class="pie-label pie-label-akademik">31%</div>
+            <div class="pie-label pie-label-non">69%</div>
+          </div>
+          <div class="legend">
+            <div class="legend-item">
+              <div class="legend-label">
+                <div class="legend-color"></div>
+                <div class="legend-text">Akademik</div>
+              </div>
+              <div class="legend-value">69</div>
+            </div>
+            <div class="legend-item">
+              <div class="legend-label">
+                <div class="legend-color"></div>
+                <div class="legend-text">Non-Akademik</div>
+              </div>
+              <div class="legend-value">31</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prestasi yang Banyak Dicapai -->
+        <div class="prestasi-dicapai-box">
+          <div class="skill-item skill-desain">
+            <div class="skill-icon">
+              <img src="../../png/desain.png" alt="" />
+            </div>
+            <div class="skill-name">Desain</div>
+            <div class="skill-count">4</div>
+          </div>
+          <div class="skill-item skill-speaking">
+            <div class="skill-icon">
+              <img src="../../png/publicspeak.png" alt="" />
+            </div>
+            <div class="skill-name">Public Speaking</div>
+            <div class="skill-count">3</div>
+          </div>
+          <div class="skill-item skill-research">
+            <div class="skill-icon">
+              <img src="../../png/research.png" alt="" />
+            </div>
+            <div class="skill-name">Research</div>
+            <div class="skill-count">2</div>
+          </div>
+          <div class="skill-item skill-writing">
+            <div class="skill-icon">
+              <img src="../../png/writing.png" alt="" />
+            </div>
+            <div class="skill-name">Writing</div>
+            <div class="skill-count">2</div>
+          </div>
+        </div>
+
+        <!-- Rekomendasi Beasiswa -->
+        <div class="rekomendasi-box">
+          <div class="beasiswa-card">
+            <div class="beasiswa-image">
+              <div class="beasiswa-title">Beasiswa Prestasi Akademik (BPA)</div>
+              <div class="beasiswa-desc">
+                Mahasiswa dengan prestasi akademik & lomba ilmiah.
+              </div>
+            </div>
+            <div class="beasiswa-footer">
+              <div class="beasiswa-status">
+                •Status : Sedang dibuka s/d 24 Desember 2025
+              </div>
+              <a href="#" class="beasiswa-link">Tautan</a>
+            </div>
+          </div>
+
+          <div class="beasiswa-card">
+            <div class="beasiswa-image">
+              <div class="beasiswa-title">Beasiswa Talenta Indonesia</div>
+              <div class="beasiswa-desc">
+                Mahasiswa yang sering menang lomba seni, olahraga, desain.
+              </div>
+            </div>
+            <div class="beasiswa-footer">
+              <div class="beasiswa-status">
+                •Status : Sedang dibuka s/d 30 Desember 2025
+              </div>
+              <a href="#" class="beasiswa-link">Tautan</a>
+            </div>
+          </div>
+
+          <div class="beasiswa-card">
+            <div class="beasiswa-image">
+              <div class="beasiswa-title">
+                Beasiswa Kemendikbud (KIP Prestasi)
+              </div>
+              <div class="beasiswa-desc">
+                Prestasi tingkat nasional atau internasional.
+              </div>
+            </div>
+            <div class="beasiswa-footer">
+              <div class="beasiswa-status">
+                •Status : Sedang dibuka s/d 30 Desember 2025
+              </div>
+              <a href="#" class="beasiswa-link">Tautan</a>
+            </div>
+          </div>
+
+          <div class="beasiswa-card">
+            <div class="beasiswa-image">
+              <div class="beasiswa-title">
+                Beasiswa Unggulan Telkom University
+              </div>
+              <div class="beasiswa-desc">
+                Prestasi tingkat nasional atau internasional.
+              </div>
+            </div>
+            <div class="beasiswa-footer">
+              <div class="beasiswa-status">
+                •Status : Sedang dibuka s/d 30 Desember 2025
+              </div>
+              <a href="#" class="beasiswa-link">Tautan</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Score Card -->
+        <div class="score-card">
+          <div class="score-header">
+            <div class="score-icon-bg">
+              <img src="../../png/totalprestasi.png" alt="" />
+            </div>
+            <div class="score-title">Skor Indeks Prestasi AURA</div>
+          </div>
+          <div class="score-number">80/100</div>
+          <div class="score-desc">
+            Anda termasuk Top 10% mahasiswa dengan prestasi terverifikasi
+            terbanyak.
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="sidebar.js"></script>
+  </body>
+</html>

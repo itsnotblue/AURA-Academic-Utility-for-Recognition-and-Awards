@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Staf - AURA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="sidebar.css" />
+    <style>
+      :root {
+        --bg: white;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --panel: #fafafa;
+        --text-primary: #58585a;
+        --text-secondary: #667085;
+        --gray-border: #d9d9d9;
+        --gray-light: #a6a8a7;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--bg);
+        overflow-x: hidden;
+      }
+
+      .page-container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-left: 296px;
+        width: calc(100vw - 296px);
+        padding: 33px 30px 33px 30px;
+        position: relative;
+      }
+
+      .content-wrapper {
+        max-width: 1091px;
+        margin: 0 auto;
+      }
+
+      /* Header Profile */
+      .header-profile {
+        width: 100%;
+        height: 109px;
+        background: var(--panel);
+        border-radius: 12px;
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 21px;
+        position: relative;
+      }
+
+      .profile-avatar {
+        width: 66px;
+        height: 66px;
+        background: #ffd9a2;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .profile-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profile-info h1 {
+        font-size: 32px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 4px;
+      }
+
+      .profile-info h1 .name {
+        color: var(--accent);
+      }
+
+      .profile-info p {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--text-primary);
+      }
+
+      .notification-bell {
+        width: 66px;
+        height: 66px;
+        background: white;
+        border-radius: 50%;
+        position: absolute;
+        right: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .notification-bell:hover {
+        transform: translateY(-50%) scale(1.1);
+        box-shadow: 0 4px 12px rgba(236, 29, 37, 0.2);
+        background: #fef2f2;
+      }
+
+      .notification-bell:active {
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      }
+
+      .notification-bell img {
+        width: 30px;
+        height: 30px;
+      }
+
+      /* Dashboard Content */
+      .dashboard-content {
+        width: 100%;
+        background: var(--panel);
+        border-radius: 12px;
+        padding: 19px 31px 40px;
+      }
+
+      .dashboard-header {
+        margin-bottom: 34px;
+      }
+
+      .dashboard-header h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+        font-family: "Inter", sans-serif;
+      }
+
+      .dashboard-header p {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--text-primary);
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-bottom: 36px;
+      }
+
+      .stat-card {
+        height: 134px;
+        background: linear-gradient(
+          46deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 20px 16px;
+        color: white;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-card:active {
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .stat-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .stat-icon {
+        width: 20px;
+        height: 20px;
+        background: var(--accent);
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px;
+      }
+
+      .stat-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .stat-card h3 {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+        line-height: 1.2;
+      }
+
+      .stat-card .value {
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      /* Charts Grid */
+      .charts-grid {
+        display: grid;
+        grid-template-columns: 500px 241px 238px;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .chart-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 14px 11px;
+        width: 100%;
+        max-width: 500px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .chart-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .chart-box:active {
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .chart-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .chart-icon {
+        width: 28px;
+        height: 28px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 4px;
+        flex-shrink: 0;
+      }
+
+      .chart-icon img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+      }
+
+      .chart-header h3 {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--accent);
+      }
+
+      .chart-legend {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .legend-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+      }
+
+      .legend-item span {
+        font-size: 10px;
+        font-weight: 700;
+        color: #615e83;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* Right Column Grid */
+      .right-column {
+        display: contents;
+      }
+
+      /* Ranking Box */
+      .ranking-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 19px 13px 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .ranking-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .ranking-box:active {
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .ranking-list {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-height: 236px;
+        overflow-y: auto;
+        padding-right: 8px;
+      }
+
+      .ranking-list::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .ranking-list::-webkit-scrollbar-track {
+        background: #f2f2f7;
+        border-radius: 100px;
+      }
+
+      .ranking-list::-webkit-scrollbar-thumb {
+        background: #aeaeb2;
+        border-radius: 100px;
+      }
+
+      .ranking-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        background: white;
+        border-radius: 8px;
+        border: 0.5px solid var(--gray-border);
+      }
+
+      .rank-badge {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: "Hind Vadodara", sans-serif;
+      }
+
+      .rank-badge img {
+        width: 30px;
+        height: 30px;
+      }
+
+      .rank-badge.gold {
+        background: transparent;
+        color: #a88600;
+      }
+
+      .rank-badge.silver {
+        background: transparent;
+        color: #727272;
+      }
+
+      .rank-badge.bronze {
+        background: transparent;
+        color: #70533d;
+      }
+
+      .rank-badge.other {
+        background: transparent;
+        color: black;
+      }
+
+      .ranking-item .name {
+        flex: 1;
+        font-size: 16px;
+        color: var(--text-secondary);
+      }
+
+      .ranking-item .score {
+        font-size: 16px;
+        color: var(--text-secondary);
+      }
+
+      /* Achievement Level Chart */
+      .achievement-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 14px 16px;
+      }
+
+      .donut-chart {
+        width: 169px;
+        height: 169px;
+        margin: 24px auto;
+        position: relative;
+      }
+
+      .donut-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .donut-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .donut-legend-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+      }
+
+      .donut-legend-item span {
+        font-size: 10px;
+        font-weight: 700;
+        color: #615e83;
+      }
+
+      /* Bottom Grid */
+      .bottom-grid {
+        display: grid;
+        grid-template-columns: 499px 241px 238px;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      /* Data Table */
+      .data-table-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .table-header {
+        padding: 20px 24px 19px;
+        border-bottom: 1px solid #eaecf0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .table-header-left h3 {
+        color: #101828;
+        font-size: 18px;
+        font-family: "Inter", sans-serif;
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+
+      .table-header-left p {
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+      }
+
+      .table-search {
+        width: 320px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid #d0d5dd;
+        padding: 0 14px 0 40px;
+        font-size: 16px;
+        font-family: "Inter", sans-serif;
+        background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="%23667085" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat 14px center;
+      }
+
+      .table-search::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: "Inter", sans-serif;
+      }
+
+      .data-table thead {
+        background: #fcfcfd;
+      }
+
+      .data-table th {
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 500;
+        text-align: left;
+        padding: 12px 24px;
+        border-bottom: 1px solid #eaecf0;
+      }
+
+      .data-table td {
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-weight: 400;
+        padding: 12px 24px;
+        border-bottom: 1px solid #eaecf0;
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 8px 2px 6px;
+        background: #ecfdf3;
+        border-radius: 16px;
+      }
+
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        background: #14ba6d;
+        border-radius: 50%;
+      }
+
+      .status-badge span {
+        color: #037847;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      /* History Box */
+      .history-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 21px 9px 12px;
+      }
+
+      .history-list {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .history-item {
+        padding: 8px 13px;
+        background: white;
+        border-radius: 8px;
+        border: 0.5px solid var(--gray-border);
+      }
+
+      .history-item .name {
+        font-size: 12px;
+        color: var(--text-secondary);
+        margin-bottom: 4px;
+      }
+
+      .history-item .time {
+        font-size: 8px;
+        color: #aeaeb2;
+      }
+
+      /* Report Box */
+      .report-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 21px 9px 12px;
+      }
+
+      .report-divider {
+        width: 100%;
+        height: 1px;
+        background: var(--accent);
+        margin: 8px 0 12px;
+      }
+
+      .report-box p {
+        font-size: 16px;
+        color: black;
+        margin-bottom: 24px;
+      }
+
+      .download-btn {
+        width: 100%;
+        height: 40px;
+        background: linear-gradient(
+          45deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        border-radius: 12px;
+        border: none;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 150px;
+      }
+
+      .download-btn:hover {
+        box-shadow: 0px 4px 12px rgba(236, 29, 37, 0.3);
+      }
+
+      .filter-text {
+        text-align: center;
+        color: var(--gray-light);
+        font-size: 9px;
+        margin-top: 16px;
+      }
+
+      /* Chart Placeholder Styles */
+      .chart-placeholder {
+        height: 240px;
+        background: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      .chart-placeholder-small {
+        height: 200px;
+        background: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      /* Legend Color Styles */
+      .legend-dot.fte {
+        background: #8a4df2;
+      }
+
+      .legend-dot.fif {
+        background: #eab308;
+      }
+
+      .legend-dot.fik {
+        background: #60ca3b;
+      }
+
+      .legend-dot.feb {
+        background: #5687f2;
+      }
+
+      .legend-dot.fri {
+        background: #ea3a88;
+      }
+
+      .legend-dot.fit {
+        background: #0495ae;
+      }
+
+      /* Donut Legend Color Styles */
+      .donut-legend-dot.kampus {
+        background: #e5e5ea;
+      }
+
+      .donut-legend-dot.nasional {
+        background: linear-gradient(38deg, #ec1d25 0%, #861015 100%);
+      }
+
+      .donut-legend-dot.internasional {
+        background: #625b71;
+      }
+
+      .data-table-wrapper {
+        margin-top: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Sidebar -->
+      <div id="sidebar-placeholder"></div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="content-wrapper">
+          <!-- Header Profile -->
+          <div class="header-profile">
+            <div class="profile-avatar">
+              <img src="https://placehold.co/66x66" alt="Profile" />
+            </div>
+            <div class="profile-info">
+              <h1>Halo, <span class="name">Anna</span> 👋🏻</h1>
+              <p>Staf • 0029881472 • Admin</p>
+            </div>
+            <div class="notification-bell">
+              <img src="../../png/bell.png" alt="Notification" />
+            </div>
+          </div>
+
+          <!-- Dashboard Content -->
+          <div class="dashboard-content">
+          <div class="dashboard-header">
+            <h2>Dashboard Staf</h2>
+            <p>
+              Selamat datang di pusat informasi dan analitik prestasi mahasiswa.
+            </p>
+          </div>
+
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">
+                  <img src="../../png/totalprestasi.png" alt="">
+                </div>
+                <h3>Prestasi Terinput</h3>
+              </div>
+              <div class="value">9.349</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">
+                  <img src="../../png/tervalidasi.png" alt="">
+                </div>
+                <h3>Data Tervalidasi</h3>
+              </div>
+              <div class="value">1.097</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">
+                  <img src="../../png/tervalidasi.png" alt="">
+                </div>
+                <h3>Belum Tervalidasi</h3>
+              </div>
+              <div class="value">8.252</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">
+                  <img src="../../png/mahasiswa.png" alt="">
+                </div>
+                <h3>Total Mahasiswa Aktif</h3>
+              </div>
+              <div class="value">7.598</div>
+            </div>
+          </div>
+
+          <!-- Charts Grid -->
+          <div class="charts-grid">
+            <div class="chart-box">
+              <div class="chart-header">
+                <div class="chart-icon">
+                  <img src="../../png/perkembaganprestasi.png" alt="">
+                </div>
+                <h3>Tren Pengumpulan Prestasi Per Bulan</h3>
+              </div>
+              <div class="chart-placeholder"></div>
+              <div class="chart-legend">
+                <div class="legend-item">
+                  <div class="legend-dot fte"></div>
+                  <span>FTE</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot fif"></div>
+                  <span>FIF</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot fik"></div>
+                  <span>FIK</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot feb"></div>
+                  <span>FEB</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot fri"></div>
+                  <span>FRI</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-dot fit"></div>
+                  <span>FIT</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="right-column">
+              <div class="chart-box">
+                <div class="chart-header">
+                  <div class="chart-icon">
+                    <img src="../../png/totalprestasi.png" alt="">
+                  </div>
+                  <h3>Prestasi Per Fakultas</h3>
+                </div>
+                <div class="chart-placeholder-small"></div>
+                <p class="filter-text">Jumlah Prestasi</p>
+              </div>
+
+              <div class="achievement-box">
+                <div class="chart-header">
+                  <div class="chart-icon">
+                    <img src="../../png/perkembaganprestasi.png" alt="">
+                  </div>
+                  <h3>Tingkat Capaian</h3>
+                </div>
+                <div class="donut-chart"></div>
+                <div class="donut-legend">
+                  <div class="donut-legend-item">
+                    <div class="donut-legend-dot kampus"></div>
+                    <span>Kampus</span>
+                  </div>
+                  <div class="donut-legend-item">
+                    <div class="donut-legend-dot nasional"></div>
+                    <span>Nasional</span>
+                  </div>
+                  <div class="donut-legend-item">
+                    <div class="donut-legend-dot internasional"></div>
+                    <span>Internasional</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Grid -->
+          <div class="bottom-grid">
+            <!-- Ranking Box -->
+            <div class="ranking-box">
+              <div class="chart-header">
+                <div class="chart-icon">
+                  <img src="../../png/peringkat.png" alt="">
+                </div>
+                <h3>10 Peringkat Teratas Mahasiswa</h3>
+              </div>
+              <div class="ranking-list">
+                <div class="ranking-item">
+                  <div class="rank-badge gold">
+                    <img src="../../png/no1.png" alt="Rank 1" />
+                  </div>
+                  <span class="name">Alexa Adriana</span>
+                  <span class="score">100</span>
+                </div>
+                <div class="ranking-item">
+                  <div class="rank-badge silver">
+                    <img src="../../png/no2.png" alt="Rank 2" />
+                  </div>
+                  <span class="name">Nicholas Basset</span>
+                  <span class="score">100</span>
+                </div>
+                <div class="ranking-item">
+                  <div class="rank-badge bronze">
+                    <img src="../../png/no3.png" alt="Rank 3" />
+                  </div>
+                  <span class="name">Robert Clarisson</span>
+                  <span class="score">100</span>
+                </div>
+                <div class="ranking-item">
+                  <div class="rank-badge other">4</div>
+                  <span class="name">Clarissa Angel</span>
+                  <span class="score">99</span>
+                </div>
+                <div class="ranking-item">
+                  <div class="rank-badge other">5</div>
+                  <span class="name">Dominic Patricia</span>
+                  <span class="score">98.5</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- History Box -->
+            <div class="history-box">
+              <div class="chart-header">
+                <div class="chart-icon">
+                  <img src="../../png/historis.png" alt="">
+                </div>
+                <h3>Histori Analisis</h3>
+              </div>
+              <div class="history-list">
+                <div class="history-item">
+                  <div class="name">Dorry Checky</div>
+                  <div class="time">
+                    Verifikasi terakhir • 2 menit yang lalu
+                  </div>
+                </div>
+                <div class="history-item">
+                  <div class="name">Beddy Cooper</div>
+                  <div class="time">Verifikasi terakhir • 4 jam yang lalu</div>
+                </div>
+                <div class="history-item">
+                  <div class="name">Albert Flores</div>
+                  <div class="time">Verifikasi terakhir • 11-10-2025</div>
+                </div>
+                <div class="history-item">
+                  <div class="name">Courtney Henry</div>
+                  <div class="time">Verifikasi terakhir • 03-10-2025</div>
+                </div>
+                <div class="history-item">
+                  <div class="name">Nicholas Sharp</div>
+                  <div class="time">Verifikasi terakhir • 06-08-2025</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Report Box -->
+            <div class="report-box">
+              <div class="chart-header">
+                <div class="chart-icon">
+                  <img src="../../png/laporan.png" alt="">
+                </div>
+                <h3>Laporan & Ekspor</h3>
+              </div>
+              <div class="report-divider"></div>
+              <p>Untuk kebutuhan dokumentasi dan rekap akhir.</p>
+              <button class="download-btn">Unduh Laporan</button>
+              <p class="filter-text">5 Pengguna Terakhir</p>
+            </div>
+          </div>
+
+          <!-- Data Table -->
+          <div class="data-table-box data-table-wrapper">
+            <div class="table-header">
+              <div class="table-header-left">
+                <h3>Data Prestasi</h3>
+                <p>
+                  Daftar seluruh prestasi mahasiswa yang telah diinput dan
+                  dikelola oleh sistem AURA.
+                </p>
+              </div>
+              <input type="text" class="table-search" placeholder="Search" />
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Kegiatan</th>
+                  <th>Tingkat</th>
+                  <th>Tanggal</th>
+                  <th>Skor AI</th>
+                  <th>Status Validasi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Regular text column</td>
+                  <td>1</td>
+                  <td>12/09/2022</td>
+                  <td>83</td>
+                  <td>
+                    <div class="status-badge">
+                      <div class="status-dot"></div>
+                      <span>Tervalidasi</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Regular text column</td>
+                  <td>3</td>
+                  <td>04/05/2024</td>
+                  <td>81.5</td>
+                  <td>
+                    <div class="status-badge">
+                      <div class="status-dot"></div>
+                      <span>Tervalidasi</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Regular text column</td>
+                  <td>3</td>
+                  <td>04/05/2024</td>
+                  <td>81.5</td>
+                  <td>
+                    <div class="status-badge">
+                      <div class="status-dot"></div>
+                      <span>Tervalidasi</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>Regular text column</td>
+                  <td>3</td>
+                  <td>04/05/2024</td>
+                  <td>81.5</td>
+                  <td>
+                    <div class="status-badge">
+                      <div class="status-dot"></div>
+                      <span>Tervalidasi</span>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>5</td>
+                  <td>Regular text column</td>
+                  <td>3</td>
+                  <td>04/05/2024</td>
+                  <td>81.5</td>
+                  <td>
+                    <div class="status-badge">
+                      <div class="status-dot"></div>
+                      <span>Tervalidasi</span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="sidebar.js"></script>
+  </body>
+</html>
