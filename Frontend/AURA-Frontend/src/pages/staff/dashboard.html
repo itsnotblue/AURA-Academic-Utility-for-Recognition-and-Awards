@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AURA - Staff Dashboard</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="sidebar.css" />
+    <style>
+      :root {
+        --bg: white;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --panel: #fafafa;
+        --text-primary: #58585a;
+        --text-secondary: #667085;
+        --gray-border: #d9d9d9;
+        --gray-light: #a6a8a7;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: var(--bg);
+        overflow-x: hidden;
+      }
+
+      .page-container {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* Main Content */
+      .main-content {
+        margin-left: 296px;
+        width: calc(100vw - 296px);
+        padding: 33px 30px 33px 30px;
+        position: relative;
+      }
+
+      .content-wrapper {
+        max-width: 1091px;
+        margin: 0 auto;
+      }
+
+      /* Header Profile */
+      .header-profile {
+        width: 100%;
+        height: 109px;
+        background: var(--panel);
+        border-radius: 12px;
+        padding: 18px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 21px;
+        position: relative;
+      }
+
+       .profile-avatar {
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        background: #FFD9A2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+      }
+
+      /* Dashboard Content */
+      .dashboard-content {
+        width: 100%;
+        background: var(--panel);
+        border-radius: 12px;
+        padding: 19px 31px 40px;
+      }
+
+      .dashboard-header {
+        margin-bottom: 34px;
+      }
+
+      .dashboard-header h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--text-primary);
+        margin-bottom: 8px;
+        font-family: "Inter", sans-serif;
+      }
+
+      .dashboard-header p {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--text-primary);
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+        margin-bottom: 36px;
+      }
+
+      .stat-card {
+        height: 134px;
+        background: linear-gradient(
+          46deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 20px 16px;
+        color: white;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .stat-card:active {
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .stat-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .stat-icon {
+        width: 20px;
+        height: 20px;
+        background: var(--accent);
+        border-radius: 50%;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3px;
+      }
+
+      .stat-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .stat-card h3 {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0;
+        line-height: 1.2;
+      }
+
+      .stat-card .value {
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 1;
+      }
+
+      /* Charts Grid */
+      .charts-grid {
+        display: grid;
+        grid-template-columns: 2.5fr 1.5fr;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .chart-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 14px 11px;
+        width: 100%;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .chart-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .chart-box:active {
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .chart-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+
+      .chart-icon {
+        width: 28px;
+        height: 28px;
+        background: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 4px;
+        flex-shrink: 0;
+      }
+
+      .chart-icon img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+      }
+
+      .chart-header h3 {
+        font-size: 16px;
+        font-weight: 400;
+        color: var(--accent);
+      }
+
+      .chart-legend {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-top: 16px;
+      }
+
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .legend-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+      }
+
+      .legend-item span {
+        font-size: 10px;
+        font-weight: 700;
+        color: #615e83;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* Right Column Grid */
+      .right-column {
+        display: contents;
+      }
+
+      /* Ranking Box */
+      .ranking-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 19px 13px 12px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        height: 100%;
+      }
+
+      .ranking-box:hover {
+        transform: translateY(-4px);
+        box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .ranking-box:active {
+        transform: translateY(-2px);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+      }
+
+      .ranking-list {
+        margin-top: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        max-height: 236px;
+        overflow-y: auto;
+        padding-right: 8px;
+      }
+
+      .ranking-list::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .ranking-list::-webkit-scrollbar-track {
+        background: #f2f2f7;
+        border-radius: 100px;
+      }
+
+      .ranking-list::-webkit-scrollbar-thumb {
+        background: #aeaeb2;
+        border-radius: 100px;
+      }
+
+      .ranking-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 12px;
+        background: white;
+        border-radius: 8px;
+        border: 0.5px solid var(--gray-border);
+      }
+
+      .rank-badge {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: "Hind Vadodara", sans-serif;
+      }
+
+      .rank-badge img {
+        width: 30px;
+        height: 30px;
+      }
+
+      .rank-badge.gold {
+        background: transparent;
+        color: #a88600;
+      }
+
+      .rank-badge.silver {
+        background: transparent;
+        color: #727272;
+      }
+
+      .rank-badge.bronze {
+        background: transparent;
+        color: #70533d;
+      }
+
+      .rank-badge.other {
+        background: transparent;
+        color: black;
+      }
+
+      .ranking-item .name {
+        flex: 1;
+        font-size: 16px;
+        color: var(--text-secondary);
+      }
+
+      .ranking-item .score {
+        font-size: 16px;
+        color: var(--text-secondary);
+      }
+
+      /* Achievement Level Chart */
+      .achievement-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 14px 16px;
+      }
+
+      .donut-chart {
+        width: 169px;
+        height: 169px;
+        margin: 24px auto;
+        position: relative;
+      }
+
+      .donut-legend {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 16px;
+      }
+
+      .donut-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .donut-legend-dot {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+      }
+
+      .donut-legend-item span {
+        font-size: 10px;
+        font-weight: 700;
+        color: #615e83;
+      }
+
+      /* Bottom Grid */
+      .bottom-grid {
+        display: grid;
+        grid-template-columns: 2.5fr 1.5fr;
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      /* Data Table */
+      .data-table-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .table-header {
+        padding: 20px 24px 19px;
+        border-bottom: 1px solid #eaecf0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .table-header-left h3 {
+        color: #101828;
+        font-size: 18px;
+        font-family: "Inter", sans-serif;
+        font-weight: 500;
+        margin-bottom: 4px;
+      }
+
+      .table-header-left p {
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+        font-weight: 400;
+      }
+
+      .table-search {
+        width: 320px;
+        height: 40px;
+        border-radius: 8px;
+        border: 1px solid #d0d5dd;
+        padding: 0 14px 0 40px;
+        font-size: 16px;
+        font-family: "Inter", sans-serif;
+        background: white url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="%23667085" stroke-width="1.66667" stroke-linecap="round" stroke-linejoin="round"/></svg>') no-repeat 14px center;
+      }
+
+      .table-search::placeholder {
+        color: var(--text-secondary);
+      }
+
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: "Inter", sans-serif;
+      }
+
+      .data-table thead {
+        background: #fcfcfd;
+      }
+
+      .data-table th {
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 500;
+        text-align: left;
+        padding: 12px 24px;
+        border-bottom: 1px solid #eaecf0;
+      }
+
+      .data-table td {
+        color: var(--text-secondary);
+        font-size: 14px;
+        font-weight: 400;
+        padding: 12px 24px;
+        border-bottom: 1px solid #eaecf0;
+      }
+
+      .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 8px 2px 6px;
+        background: #ecfdf3;
+        border-radius: 16px;
+      }
+
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        background: #14ba6d;
+        border-radius: 50%;
+      }
+
+      .status-badge span {
+        color: #037847;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      /* History Box */
+      .history-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 21px 9px 12px;
+      }
+
+      .history-list {
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .history-item {
+        padding: 8px 13px;
+        background: white;
+        border-radius: 8px;
+        border: 0.5px solid var(--gray-border);
+      }
+
+      .history-item .name {
+        font-size: 12px;
+        color: var(--text-secondary);
+        margin-bottom: 4px;
+      }
+
+      .history-item .time {
+        font-size: 8px;
+        color: #aeaeb2;
+      }
+
+      /* Report Box */
+      .report-box {
+        background: white;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 21px 9px 12px;
+      }
+
+      .report-divider {
+        width: 100%;
+        height: 1px;
+        background: var(--accent);
+        margin: 8px 0 12px;
+      }
+
+      .report-box p {
+        font-size: 16px;
+        color: black;
+        margin-bottom: 24px;
+      }
+
+      .download-btn {
+        width: 100%;
+        height: 40px;
+        background: linear-gradient(
+          45deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        border-radius: 12px;
+        border: none;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 150px;
+      }
+
+      .download-btn:hover {
+        box-shadow: 0px 4px 12px rgba(236, 29, 37, 0.3);
+      }
+
+      .filter-text {
+        text-align: center;
+        color: var(--gray-light);
+        font-size: 9px;
+        margin-top: 16px;
+      }
+
+      /* Chart Placeholder Styles */
+      .chart-placeholder {
+        height: 240px;
+        background: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      .chart-placeholder-small {
+        height: 200px;
+        background: #f9f9f9;
+        border-radius: 8px;
+      }
+
+      /* Donut Legend Color Styles */
+      .donut-legend-dot.kampus {
+        background: #e5e5ea;
+      }
+
+      .donut-legend-dot.nasional {
+        background: linear-gradient(38deg, #ec1d25 0%, #861015 100%);
+      }
+
+      .donut-legend-dot.internasional {
+        background: #625b71;
+      }
+
+      .data-table-wrapper {
+        margin-top: 24px;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Sidebar -->
+      <div id="sidebar-placeholder"></div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="content-wrapper">
+          <!-- Header Profile -->
+          <div class="header-profile">
+            <div class="profile-avatar" id="profile-avatar">
+            </div>
+            <div class="profile-info">
+              <h1>Halo, <span class="name" id="profile-name">Loading...</span> 👋🏻</h1>
+              <p id="profile-details">Loading...</p>
+            </div>
+          </div>
+
+          <!-- Dashboard Content -->
+          <div class="dashboard-content">
+          <div class="dashboard-header">
+            <h2>Dashboard Staf</h2>
+            <p>
+              Selamat datang di pusat informasi dan analitik prestasi mahasiswa.
+            </p>
+          </div>
+
+          <!-- Stats Cards -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">
+                  <img src="/assets/totalprestasi.png" alt="">
+                </div>
+                <h3>Prestasi Terinput</h3>
+              </div>
+              <div class="value" id="stat-total-prestasi">-</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">
+                  <img src="/assets/tervalidasi.png" alt="">
+                </div>
+                <h3>Data Tervalidasi</h3>
+              </div>
+              <div class="value" id="stat-validated">-</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">
+                  <img src="/assets/tervalidasi.png" alt="">
+                </div>
+                <h3>Belum Tervalidasi</h3>
+              </div>
+              <div class="value" id="stat-processed">-</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon">
+                  <img src="/assets/mahasiswa.png" alt="">
+                </div>
+                <h3>Total Mahasiswa Aktif</h3>
+              </div>
+              <div class="value" id="stat-students">-</div>
+            </div>
+          </div>
+
+          <!-- Charts Grid -->
+          <div class="charts-grid">
+            <div class="chart-box">
+              <div class="chart-header">
+                <div class="chart-icon">
+                  <img src="/assets/perkembanganprestasi.png" alt="">
+                </div>
+                <h3>Tren Pengumpulan Prestasi Per Bulan</h3>
+              </div>
+              <div class="chart-container" style="height: 320px; position: relative;">
+                <canvas id="trendChart"></canvas>
+              </div>
+            </div>
+
+            <div class="right-column">
+              <div class="chart-box" style="display: flex; flex-direction: column; height: 100%;">
+                <div class="chart-header">
+                  <div class="chart-icon">
+                    <img src="/assets/totalprestasi.png" alt="">
+                  </div>
+                  <h3>Prestasi Per Fakultas</h3>
+                </div>
+                <div class="chart-container" style="flex-grow: 1; position: relative; min-height: 0;">
+                  <canvas id="fakultasChart"></canvas>
+                </div>
+                <p class="filter-text">Jumlah Prestasi</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Grid -->
+          <div class="bottom-grid">
+            <!-- Ranking Box -->
+            <div class="ranking-box">
+              <div class="chart-header">
+                <div class="chart-icon">
+                  <img src="/assets/peringkat.png" alt="">
+                </div>
+                <h3>5 Peringkat Teratas Mahasiswa</h3>
+              </div>
+              <div class="ranking-list" id="ranking-list-container">
+              </div>
+            </div>
+
+            <div class="achievement-box">
+              <div class="chart-header">
+                <div class="chart-icon">
+                  <img src="/assets/perkembanganprestasi.png" alt="">
+                </div>
+                <h3>Tingkat Capaian</h3>
+              </div>
+              <div class="donut-chart">
+                <canvas id="achievementChart"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Table -->
+          <div class="data-table-box data-table-wrapper">
+            <div class="table-header">
+              <div class="table-header-left">
+                <h3>Data Prestasi Terbaru</h3>
+                <p>
+                  Daftar prestasi mahasiswa terbaru yang telah diinput.
+                </p>
+              </div>
+              <input type="text" class="table-search" placeholder="Search" />
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>No</th>
+                  <th>Nama Kegiatan</th>
+                  <th>Nama Mahasiswa</th>
+                  <th>Tanggal</th>
+                  <th>Skor AI</th>
+                  <th>Status Validasi</th>
+                </tr>
+              </thead>
+              <tbody id="recent-certificates-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="sidebar.js"></script>
+    <script type="module">
+      import { initStaffSidebar } from "../../component/staffSidebar.js";
+      import { fetchStaffDashboard } from "../../api/staff/staffDashboard.js";
+      import { notification } from "../../component/notification.js";
+
+      // Helper Functions
+      function formatStatus(status) {
+        if (status === "validated") {
+          return `
+            <div class="status-badge">
+              <div class="status-dot"></div>
+              <span>Tervalidasi</span>
+            </div>`;
+        } else if (status === "processed") {
+          return `
+            <div class="status-badge" style="background: #FFF4E5;">
+              <div class="status-dot" style="background: #F79009;"></div>
+              <span style="color: #B54708;">Diproses</span>
+            </div>`;
+        }
+        return `
+            <div class="status-badge" style="background: #FEF3F2;">
+              <div class="status-dot" style="background: #F04438;"></div>
+              <span style="color: #B42318;">${status}</span>
+            </div>`;
+      }
+
+      function renderProfile(profile) {
+        if (!profile) return;
+
+        const avatar = document.getElementById("profile-avatar");
+
+        const firstInitial =
+          profile && profile.nama.length > 0 ? profile.nama[0].toUpperCase() : "";
+
+        avatar.textContent = firstInitial;
+
+        document.getElementById("profile-name").textContent =
+          profile.nama.split(" ")[0]; // First name
+        document.getElementById(
+          "profile-details"
+        ).textContent = `${profile.jabatan} • ${profile.nip} • ${profile.kode_staff}`;
+      }
+
+      function renderStats(stats, studentCount) {
+        const validated = stats?.validated_count || 0;
+        const processed = stats?.processed_count || 0;
+        const total = validated + processed;
+
+        document.getElementById("stat-total-prestasi").textContent =
+          total.toLocaleString("id-ID");
+        document.getElementById("stat-validated").textContent =
+          validated.toLocaleString("id-ID");
+        document.getElementById("stat-processed").textContent =
+          processed.toLocaleString("id-ID");
+        document.getElementById("stat-students").textContent = (
+          studentCount || 0
+        ).toLocaleString("id-ID");
+      }
+
+      function renderRanking(students) {
+        const rankingContainer = document.getElementById(
+          "ranking-list-container"
+        );
+        rankingContainer.innerHTML = "";
+
+        if (students && students.length > 0) {
+          // Only take the first 5 students
+          students.slice(0, 5).forEach((student, index) => {
+            let badgeHtml = "";
+            if (index === 0)
+              badgeHtml = `<div class="rank-badge gold"><img src="/assets/no1.png" alt="Rank 1" /></div>`;
+            else if (index === 1)
+              badgeHtml = `<div class="rank-badge silver"><img src="/assets/no2.png" alt="Rank 2" /></div>`;
+            else if (index === 2)
+              badgeHtml = `<div class="rank-badge bronze"><img src="/assets/no3.png" alt="Rank 3" /></div>`;
+            else
+              badgeHtml = `<div class="rank-badge other">${index + 1}</div>`;
+
+            const item = document.createElement("div");
+            item.className = "ranking-item";
+            item.innerHTML = `
+              ${badgeHtml}
+              <span class="name">${student.nama}</span>
+              <span class="score">${(student.avg_score * 100)}</span>
+            `;
+            rankingContainer.appendChild(item);
+          });
+        } else {
+          rankingContainer.innerHTML =
+            '<div style="padding: 20px; text-align: center; color: #666;">Belum ada data peringkat</div>';
+        }
+      }
+
+      function renderRecentCertificates(certificates) {
+        const tableBody = document.getElementById("recent-certificates-body");
+        if (!tableBody) {
+          console.error("Table body 'recent-certificates-body' not found");
+          return;
+        }
+        tableBody.innerHTML = "";
+
+        if (certificates && certificates.length > 0) {
+          certificates.forEach((cert, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${index + 1}</td>
+              <td>${cert.event_name}</td>
+              <td>${cert.student_name}</td>
+              <td>${cert.date_issued || cert.created_at || "-"}</td>
+              <td>${cert.spu_score}</td>
+              <td>${formatStatus(cert.status)}</td>
+            `;
+            tableBody.appendChild(row);
+          });
+        } else {
+          tableBody.innerHTML =
+            '<tr><td colspan="6" style="text-align: center; padding: 20px;">Belum ada data prestasi terbaru</td></tr>';
+        }
+      }
+
+      function renderFakultasChart(data) {
+        const ctx = document.getElementById("fakultasChart").getContext("2d");
+
+        // Initialize data structure for 7 faculties
+        const faculties = {
+          FTE: 0,
+          FRI: 0,
+          FIF: 0,
+          FEB: 0,
+          FKS: 0,
+          FIK: 0,
+          FIT: 0,
+        };
+
+        // Reverse mapping from full name to code
+        const nameToCode = {
+          Elektro: "FTE",
+          Industri: "FRI",
+          Informatika: "FIF",
+          "Ekonomi Bisnis": "FEB",
+          "Komunikasi Sosial": "FKS",
+          Kreatif: "FIK",
+          Terapan: "FIT",
+        };
+
+        // Process API data
+        if (data) {
+          Object.entries(data).forEach(([key, value]) => {
+            // Try to find the code
+            const code = nameToCode[key];
+            if (code && faculties.hasOwnProperty(code)) {
+              faculties[code] += value;
+            } else {
+              // Fallback: maybe the key is already the code?
+              if (faculties.hasOwnProperty(key)) {
+                faculties[key] += value;
+              }
+            }
+          });
+        }
+
+        const labels = Object.keys(faculties);
+        const values = Object.values(faculties);
+
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Jumlah Prestasi",
+                data: values,
+                borderColor: "#ec1d25",
+                backgroundColor: "rgba(236, 29, 37, 0.1)",
+                borderWidth: 2,
+                tension: 0.4,
+                fill: true,
+                pointBackgroundColor: "#fff",
+                pointBorderColor: "#ec1d25",
+                pointRadius: 4,
+                pointHoverRadius: 6,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                backgroundColor: "#fff",
+                titleColor: "#000",
+                bodyColor: "#000",
+                borderColor: "#eaecf0",
+                borderWidth: 1,
+                padding: 10,
+                displayColors: false,
+                callbacks: {
+                  label: function (context) {
+                    return `Jumlah: ${context.parsed.y}`;
+                  },
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: "#f2f4f7",
+                  drawBorder: false,
+                },
+                ticks: {
+                  stepSize: 1,
+                  font: {
+                    family: "'Inter', sans-serif",
+                    size: 10,
+                  },
+                  color: "#667085",
+                },
+              },
+              x: {
+                grid: {
+                  display: false,
+                  drawBorder: false,
+                },
+                ticks: {
+                  font: {
+                    family: "'Inter', sans-serif",
+                    size: 10,
+                  },
+                  color: "#667085",
+                },
+              },
+            },
+          },
+        });
+      }
+
+      function renderAchievementChart(data) {
+        const ctx = document.getElementById("achievementChart").getContext("2d");
+
+        // Gradient for Nasional
+        const gradientNasional = ctx.createLinearGradient(0, 0, 0, 169);
+        gradientNasional.addColorStop(0, "#ec1d25");
+        gradientNasional.addColorStop(1, "#861015");
+
+        new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Kampus", "Nasional", "Internasional"],
+            datasets: [
+              {
+                data: [
+                  data?.kampus_count || 0,
+                  data?.nasional_count || 0,
+                  data?.internasional_count || 0,
+                ],
+                backgroundColor: ["#e5e5ea", gradientNasional, "#625b71"],
+                borderWidth: 0,
+                hoverOffset: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: "60%",
+            plugins: {
+              legend: {
+                  position: "bottom",
+                  labels: {
+                    usePointStyle: true,
+                    padding: 10,
+                    font: {
+                      family: "'Poppins', sans-serif",
+                      size: 12,
+                    },
+                  },
+                },
+              tooltip: {
+                enabled: true,
+              },
+            },
+          },
+        });
+      }
+
+      function renderTrendChart(certificates) {
+        const ctx = document.getElementById("trendChart").getContext("2d");
+        const months = [
+          "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+        
+        const nameToCode = {
+          Elektro: "FTE",
+          Industri: "FRI",
+          Informatika: "FIF",
+          "Ekonomi Bisnis": "FEB",
+          "Komunikasi Sosial": "FKS",
+          Kreatif: "FIK",
+          Terapan: "FIT",
+        };
+
+        const colors = {
+          FTE: "#8a4df2", // Purple
+          FIF: "#eab308", // Yellow
+          FIK: "#60ca3b", // Green
+          FEB: "#5687f2", // Blue
+          FRI: "#ea3a88", // Pink
+          FIT: "#0495ae", // Teal
+          FKS: "#f97316", // Orange
+        };
+
+        // Initialize data structure: { FTE: [0...0], ... }
+        const monthlyData = {};
+        Object.values(nameToCode).forEach(code => {
+          monthlyData[code] = new Array(12).fill(0);
+        });
+
+        if (certificates && certificates.length > 0) {
+          certificates.forEach(cert => {
+            const dateStr = cert.created_at;
+            if (dateStr) {
+              const parts = dateStr.split("-");
+              if (parts.length === 3) {
+                const monthIndex = parseInt(parts[1], 10) - 1; // 0-11
+                
+                const facultyName = cert.fakultas || cert.faculty; 
+                const code = nameToCode[facultyName];
+
+                if (code && monthlyData[code] && monthIndex >= 0 && monthIndex < 12) {
+                  monthlyData[code][monthIndex]++;
+                }
+              }
+            }
+          });
+        }
+
+        const datasets = Object.keys(monthlyData).map(code => ({
+          label: code,
+          data: monthlyData[code],
+          borderColor: colors[code] || "#999",
+          backgroundColor: colors[code] || "#999",
+          borderWidth: 2,
+          tension: 0.4,
+          pointRadius: 3,
+          pointHoverRadius: 5,
+          fill: false
+        }));
+
+        new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: months,
+            datasets: datasets,
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  usePointStyle: true,
+                  pointStyle: "circle",
+                  padding: 20,
+                  font: {
+                    family: "'Poppins', sans-serif",
+                    size: 11,
+                    weight: "700"
+                  },
+                  color: "#615e83"
+                }
+              },
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1
+                },
+                grid: {
+                  color: "#f0f0f0"
+                }
+              },
+              x: {
+                grid: {
+                  display: false
+                }
+              }
+            },
+            interaction: {
+              mode: 'nearest',
+              axis: 'x',
+              intersect: false
+            }
+          },
+        });
+      }
+
+      function renderDashboard(data) {
+        renderProfile(data.staff_profile);
+        renderStats(
+          data.certificate_status_counts,
+          data.students_by_fakultas?.unique_students_count
+        );
+        renderRanking(data.top_students);
+        renderRecentCertificates(data.recent_certificates);
+        renderFakultasChart(data.certificate_count_by_fakultas);
+        renderAchievementChart(data.certificate_status_counts);
+        renderTrendChart(data.recent_certificates);
+      }
+
+      async function loadDashboard() {
+        try {
+          const data = await fetchStaffDashboard();
+          renderDashboard(data);
+        } catch (error) {
+          notification.show("Loading Failed", "Gagal memuat dashboard. Silakan coba lagi.", {type:"error"});
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initStaffSidebar();
+        loadDashboard();
+      });
+    </script>
+  </body>
+</html>

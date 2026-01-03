@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>AURA - Data Prestasi</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;700&family=Work+Sans:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Root colors and variables */
+      :root {
+        --bg: #ffffff;
+        --panel: #fafafa;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --muted: #a6a8a7;
+        --text-dark: #58585a;
+        --text-light: #667085;
+        --border: #eaecf0;
+        --border-light: #cfd3d4;
+        --label-color: #5e6366;
+        --success: #14ba6d;
+        --success-bg: #ecfdf3;
+      }
+
+      /* Global reset and defaults */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Poppins", "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text-dark);
+        scroll-behavior: smooth;
+      }
+
+      /* Page layout */
+      .page-container {
+        width: 100%;
+        position: relative;
+        background: var(--bg);
+        display: flex;
+      }
+
+      /* ===== MAIN CONTENT ===== */
+      .main-wrapper {
+        margin-left: 296px;
+        flex: 1;
+        padding: 32px 40px;
+        background: var(--bg);
+      }
+
+      /* Content Card */
+      .content-card {
+        background: white;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: box-shadow 0.3s ease;
+      }
+
+      /* Page header */
+      .page-header {
+        margin-bottom: 24px;
+      }
+      .page-header h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+      }
+      .page-header p {
+        font-size: 16px;
+        color: var(--text-dark);
+      }
+
+      /* Tab navigation */
+      .tab-navigation {
+        display: flex;
+        gap: 0;
+        margin-bottom: 32px;
+      }
+      .tab-btn {
+        padding: 12px 24px;
+        background: white;
+        border: none;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-light);
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: block;
+      }
+      .tab-btn:hover:not(.active) {
+        background: rgba(236, 29, 37, 0.05);
+        color: var(--accent);
+      }
+      .tab-btn.active {
+        background: var(--accent);
+        color: white;
+      }
+      .tab-btn:first-child {
+        border-top-left-radius: 8px;
+      }
+      .tab-btn:last-child {
+        border-top-right-radius: 8px;
+      }
+
+      /* Table controls */
+      .table-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .show-entries {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--text-dark);
+      }
+      .show-entries select {
+        padding: 6px 12px;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .search-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .search-box input {
+        width: 260px;
+        padding: 8px 16px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px;
+      }
+
+      /* Data table */
+      .data-table-container {
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      table thead {
+        background: var(--accent);
+        color: white;
+      }
+      table th {
+        padding: 12px;
+        text-align: left;
+        font-weight: 600;
+        font-size: 13px;
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      table th:last-child {
+        border-right: none;
+      }
+      table td {
+        padding: 16px 12px;
+        color: var(--text-dark);
+        border-bottom: 1px solid var(--border);
+        font-family: "Inter", sans-serif;
+      }
+      table tbody tr:hover {
+        background: #f9fafb;
+        transition: background-color 0.2s ease;
+      }
+      table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .badge-success {
+        display: inline-block;
+        padding: 4px 12px;
+        background: var(--success-bg);
+        color: var(--success);
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .badge-processed {
+        display: inline-block;
+        padding: 4px 12px;
+        background: #e0f2fe;
+        color: #0284c7;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      /* Pagination */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .pagination-btn {
+        padding: 8px 12px;
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font-size: 14px;
+        color: var(--text-dark);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: "Work Sans", sans-serif;
+      }
+      .pagination-btn:hover:not(:disabled) {
+        background: var(--panel);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .pagination-btn.active {
+        background: var(--accent);
+        color: white;
+        border-color: var(--accent);
+      }
+
+      /* Form sections */
+      .form-section {
+        margin-bottom: 32px;
+      }
+      .form-section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 16px;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .form-group.full-width {
+        grid-column: 1 / -1;
+      }
+      .form-label {
+        font-size: 12px;
+        font-weight: 400;
+        color: var(--label-color);
+        font-family: "Inter", sans-serif;
+      }
+      .form-input,
+      .form-select,
+      .form-textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border-light);
+        border-radius: 4px;
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+        color: var(--text-dark);
+        background: white;
+        transition: border-color 0.2s;
+      }
+      .form-input:focus,
+      .form-select:focus,
+      .form-textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+      }
+      .form-input:disabled {
+        background: #f5f5f5;
+        color: var(--muted);
+        cursor: not-allowed;
+      }
+      .form-textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+      .form-input::placeholder,
+      .form-select::placeholder,
+      .form-textarea::placeholder {
+        color: var(--muted);
+      }
+
+      /* File upload area */
+      .upload-area {
+        width: 100%;
+        min-height: 163px;
+        background: var(--panel);
+        border: 2px dashed var(--border-light);
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 24px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .upload-area:hover {
+        border-color: var(--accent);
+        background: #fff5f5;
+      }
+      .upload-icon {
+        width: 48px;
+        height: 48px;
+        background-color: var(--accent);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+      }
+      .upload-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .upload-text {
+        font-size: 14px;
+        color: var(--text-dark);
+        text-align: center;
+      }
+      .upload-text strong {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      /* Form actions */
+      .form-actions {
+        display: flex;
+        gap: 16px;
+        margin-top: 32px;
+      }
+      .btn {
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: none;
+      }
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        color: white;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(236, 29, 37, 0.3);
+      }
+      .btn-secondary {
+        background: white;
+        color: var(--accent);
+        border: 2px solid var(--accent);
+      }
+      .btn-secondary:hover {
+        background: #fff5f5;
+      }
+      .btn-icon {
+        width: 20px;
+        height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Sidebar -->
+      <div id="sidebar-placeholder"></div>
+
+      <!-- Main Content -->
+      <main class="main-wrapper">
+        <div class="content-card">
+          <!-- Page Header -->
+          <div class="page-header">
+            <h1>Data Prestasi</h1>
+            <p>
+              Selamat datang di pusat informasi dan analitik prestasi mahasiswa.
+            </p>
+          </div>
+
+          <!-- Tab Navigation -->
+          <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="history">
+              Riwayat Masukan
+            </button>
+            <button class="tab-btn" data-tab="input">Masukan Data</button>
+          </div>
+
+          <!-- Dynamic Content Container -->
+          <div id="content-container">
+            <!-- Content will be loaded here -->
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script type="module">
+      import { initUserSidebar } from "../../component/userSidebar.js";
+      import {
+        getHistoryComponent,
+        initHistoryComponent,
+      } from "../../component/users/history.js";
+      import {
+        getInputSectionComponent,
+        initInputSectionComponent,
+      } from "../../component/users/inputSection.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initUserSidebar();
+
+        const contentContainer = document.getElementById("content-container");
+        const tabs = document.querySelectorAll(".tab-btn");
+
+        function switchTab(tabName) {
+          // Update active state of tabs
+          tabs.forEach((tab) => {
+            if (tab.dataset.tab === tabName) {
+              tab.classList.add("active");
+            } else {
+              tab.classList.remove("active");
+            }
+          });
+
+          // Render content
+          if (tabName === "history") {
+            contentContainer.innerHTML = getHistoryComponent();
+            initHistoryComponent();
+          } else if (tabName === "input") {
+            contentContainer.innerHTML = getInputSectionComponent();
+            initInputSectionComponent();
+          }
+        }
+
+        // Attach event listeners to tabs
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            switchTab(tab.dataset.tab);
+          });
+        });
+
+        // Initial load
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialTab = urlParams.get("tab") || "history";
+        switchTab(initialTab);
+      });
+    </script>
+  </body>
+</html>

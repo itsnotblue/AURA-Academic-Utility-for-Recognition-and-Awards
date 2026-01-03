@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AURA - Verifikasi Prestasi</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="sidebar.css" />
+    <style>
+      /* Root colors and variables */
+      :root {
+        --bg: #ffffff;
+        --panel: #fafafa;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --muted: #a6a8a7;
+        --text-dark: #58585a;
+        --text-light: #667085;
+        --border: #eaecf0;
+        --border-light: #cfd3d4;
+        --label-color: #5e6366;
+        --success: #14ba6d;
+        --success-bg: #ecfdf3;
+      }
+
+      /* Global reset and defaults */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Poppins", "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text-dark);
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
+      /* Page layout */
+      .page-container {
+        width: 100%;
+        position: relative;
+        background: var(--bg);
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* ===== MAIN CONTENT ===== */
+      .main-wrapper {
+        margin-left: 296px;
+        flex: 1;
+        padding: 32px 40px;
+        background: var(--bg);
+      }
+
+      /* Content Card */
+      .content-card {
+        background: white;
+        border-radius: 12px;
+        padding: 32px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: box-shadow 0.3s ease;
+      }
+
+      /* Page header */
+      .page-header {
+        margin-bottom: 24px;
+      }
+      .page-header h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+        font-family: "Poppins", sans-serif;
+      }
+      .page-header p {
+        font-size: 16px;
+        color: var(--text-dark);
+        font-family: "Poppins", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Sidebar -->
+      <div id="sidebar-placeholder"></div>
+
+      <!-- Main Content -->
+      <main class="main-wrapper">
+        <div class="content-card">
+          <!-- Page Header -->
+          <div class="page-header">
+            <h1>Verifikasi Prestasi</h1>
+            <p>Validasi data prestasi mahasiswa yang masuk.</p>
+          </div>
+
+          <!-- Table Container -->
+          <div id="list-prestasi-container"></div>
+        </div>
+      </main>
+    </div>
+    <script src="sidebar.js"></script>
+    <script type="module">
+      import { initStaffSidebar } from "../../component/staffSidebar.js";
+      import { ListPrestasi } from "../../component/staff/listprestasi.js";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initStaffSidebar();
+
+        const listPrestasi = new ListPrestasi("list-prestasi-container");
+        listPrestasi.init();
+      });
+    </script>
+  </body>
+</html>

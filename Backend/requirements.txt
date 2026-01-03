@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+
+supabase
+pytesseract
+pillow
+pdf2image
+sentence-transformers
+requests
+python-dotenv
+groq
+pandas
+scipy
+python-jose[cryptography]
+passlib[bcrypt]
+argon2-cffi
+datetime

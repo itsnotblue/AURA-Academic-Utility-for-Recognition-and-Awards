@@ -1,0 +1,163 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+}
+
+.login-container {
+  width: 1440px;
+  height: 1020px;
+  position: relative;
+  background: white;
+  overflow: hidden;
+}
+
+.banner {
+  width: 795px;
+  height: 965px;
+  position: absolute;
+  top: 15px;
+  left: 0px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+  border-radius: 12px;
+  color: white;
+  padding: 2rem;
+  background-image: url(/assets/Frame1.png);
+  background-position: center;
+}
+
+.banner-title {
+  font-size: 96px;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.banner-subtitle {
+  font-size: 20px;
+  font-weight: 400;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.emoji-container {
+  display: flex;
+  gap: 2rem;
+  font-size: 40px;
+}
+
+.login-content {
+  position: absolute;
+  right: 100px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 519px;
+}
+
+.logo {
+  position: absolute;
+  top: 20px;
+  right: 290px;
+  width: 98px;
+  height: 60px;
+  z-index: 1;
+}
+
+.sso-text {
+  color: black;
+  font-size: 16px;
+  margin-bottom: 1rem;
+}
+
+.welcome-text {
+  margin-bottom: 2rem;
+  font-size: 32px;
+}
+
+.welcome-text-normal {
+  color: black;
+  font-weight: 500;
+}
+
+.welcome-text-highlight {
+  color: #ec1d25;
+  font-weight: 700;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.input-field {
+  position: relative;
+  height: 48px;
+}
+
+.input-box {
+  width: 100%;
+  height: 100%;
+  padding: 0 26px;
+  border: 1px solid #6b737a;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #8c8c8c;
+  background: white;
+  transition: border-color 0.2s;
+}
+
+.input-box:focus {
+  outline: none;
+  border-color: #ec1d25;
+}
+
+.input-label {
+  position: absolute;
+  left: 12px;
+  top: -8px;
+  padding: 0 4px;
+  background: white;
+  color: #5e6368;
+  font-size: 12px;
+  line-height: 16px;
+  pointer-events: none;
+}
+
+.login-button {
+  height: 48px;
+  background: linear-gradient(45deg, #ec1d25 0%, #861015 100%);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+/* Error input styling */
+.input-box.error {
+  border-color: #ec1d25;
+}

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>AURA Login</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <img class="logo" src="/assets/Aura_logo.png" alt="AURA Logo" />
+      <div class="banner"></div>
+      <div class="login-content">
+        <div class="welcome-text">
+          <span class="welcome-text-normal">👋🏻 Hi, Masuk ke </span>
+          <span class="welcome-text-highlight">AURA</span>
+          <span class="welcome-text-normal">!</span>
+          <p class="sso-text">Single Account, Single Sign On login</p>
+        </div>
+
+        <form class="login-form">
+          <div class="input-field">
+            <input
+              type="text"
+              class="input-box"
+              id="username"
+              name="username"
+              placeholder="Masukkan username SSO"
+              required
+            />
+            <label class="input-label" for="username">Username SSO</label>
+          </div>
+
+          <div class="input-field">
+            <input
+              type="password"
+              class="input-box"
+              id="password"
+              name="password"
+              placeholder="Masukkan password"
+              required
+            />
+            <label class="input-label" for="password">Password</label>
+          </div>
+
+          <button type="submit" class="login-button">Masuk</button>
+        </form>
+      </div>
+    </div>
+
+    <script type="module">
+      import { notification } from "./src/component/notification.js";
+      import { authAPI } from "./src/api/auth.js";
+
+      document
+        .querySelector(".login-form")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const username = document.getElementById("username");
+          const password = document.getElementById("password");
+
+          username.classList.remove("error");
+          password.classList.remove("error");
+
+          if (!username.value.trim() || !password.value.trim()) {
+            if (!username.value.trim()) {
+              username.classList.add("error");
+            }
+            if (!password.value.trim()) {
+              password.classList.add("error");
+            }
+            notification.show(
+              "Input Required",
+              "Please fill in both username and password",
+              { type: "warning" }
+            );
+            return;
+          }
+
+          const submitButton = this.querySelector('button[type="submit"]');
+          const originalText = submitButton.textContent;
+          submitButton.textContent = "Loading...";
+          submitButton.disabled = true;
+
+          try {
+            const result = await authAPI.login(username.value, password.value);
+
+            if (result.success) {
+              notification.show(
+                "Login Berhasil",
+                "Redirecting to dashboard...",
+                {
+                  type: "success",
+                  duration: 1000,
+                }
+              );
+
+              setTimeout(() => {
+                const userRole = authAPI.getUserRole();
+                if (userRole === "Staff") {
+                  window.location.href = "staff/dashboard.html";
+                } else {
+                  window.location.href = "user/dashboard.html";
+                }
+              }, 2000);
+            } else {
+              username.classList.add("error");
+              password.classList.add("error");
+              notification.show(
+                "Login Gagal",
+                result.error ||
+                  "Kata sandi salah. Tidak dapat melanjutkan lebih lanjut.",
+                { type: "error" }
+              );
+            }
+          } catch (error) {
+            username.classList.add("error");
+            password.classList.add("error");
+            notification.show(
+              "Login Gagal",
+              "Terjadi kesalahan sistem. Silakan coba lagi.",
+              { type: "error" }
+            );
+          } finally {
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+          }
+        });
+
+      document
+        .getElementById("username")
+        .addEventListener("input", function () {
+          if (this.value.trim()) {
+            this.classList.remove("error");
+          }
+        });
+
+      document
+        .getElementById("password")
+        .addEventListener("input", function () {
+          if (this.value.trim()) {
+            this.classList.remove("error");
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,990 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>AURA - Student Dashboard</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --panel: #fafafa;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --muted: #a6a8a7;
+        --text-dark: #58585a;
+        --text-light: #8c8c8c;
+        --border: #eaecf0;
+        --success: #10b981;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Poppins", "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text-dark);
+        scroll-behavior: smooth;
+      }
+
+      .page-container {
+        width: 100%;
+        position: relative;
+        background: var(--bg);
+        display: flex;
+      }
+
+      .main-wrapper {
+        margin-left: 296px;
+        flex: 1;
+        padding: 32px 40px;
+        background: var(--bg);
+      }
+
+      .topbar {
+        background: var(--panel);
+        border-radius: 12px;
+        padding: 24px 32px;
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .greeting-section {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .user-avatar {
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        background: #b8dff2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+      }
+      .greeting-text h2 {
+        font-size: 32px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      .greeting-text .highlight {
+        color: var(--accent);
+      }
+      .greeting-text p {
+        font-size: 14px;
+        color: var(--text-light);
+      }
+      .user-menu {
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .user-menu:hover {
+        background: var(--panel);
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .user-menu img {
+        width: 28px;
+        height: 28px;
+      }
+
+      .dashboard-header {
+        margin-bottom: 24px;
+      }
+      .dashboard-header h1 {
+        font-size: 24px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+      }
+      .dashboard-header p {
+        font-size: 16px;
+        color: var(--text-light);
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .stat-card {
+        padding: 24px;
+        border-radius: 12px;
+        color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        position: relative;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .stat-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      }
+      .stat-card.primary {
+        background: linear-gradient(
+          135deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+      }
+      .stat-card.secondary {
+        background: linear-gradient(135deg, #be1e2d 0%, #861015 100%);
+      }
+      .stat-card.tertiary {
+        background: linear-gradient(
+          270deg,
+          var(--accent) 0%,
+          var(--accent-dark) 100%
+        );
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .stat-card-label {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .stat-card-label img {
+        width: 24px;
+        height: 24px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        padding: 4px;
+        border: 2px solid rgba(255, 255, 255, 0.6);
+      }
+      .stat-card-value {
+        font-size: 48px;
+        font-weight: 700;
+        margin-bottom: 12px;
+      }
+      .stat-card-footer {
+        font-size: 12px;
+        opacity: 0.85;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .stat-card.tertiary .stat-card-footer {
+        border-top: none;
+        padding-top: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .top-section {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 20px;
+        margin-bottom: 24px;
+      }
+
+      .stats-grid {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .recommendations-column {
+        grid-column: 2;
+        grid-row: 1 / 3;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 100%;
+      }
+
+      .charts-section {
+        grid-column: 1;
+        grid-row: 2;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+      }
+      .widget {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .widget:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+      }
+      .widget-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+      .widget-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+      .widget-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        background: rgb(206, 4, 4);
+        border-radius: 50%;
+        padding: 6px;
+      }
+      .widget-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .chart-container {
+        width: 100%;
+        height: 100%;
+        background: #f9f9f9;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .recommendation-card {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .recommendation-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+      }
+      .recommendation-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        background: #ca1a1a;
+        border-radius: 50%;
+        margin: 0 auto 12px;
+        padding: 12px;
+      }
+      .recommendation-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .recommendation-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+      }
+      .recommendation-text {
+        font-size: 13px;
+        color: var(--text-light);
+        margin-bottom: 16px;
+        line-height: 1.5;
+      }
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: white;
+        box-shadow: 0 2px 4px rgba(236, 29, 37, 0.2);
+      }
+      .btn-primary:hover {
+        background: var(--accent-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(236, 29, 37, 0.3);
+      }
+      .btn-primary:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(236, 29, 37, 0.2);
+      }
+
+      .data-section {
+        background: white;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: box-shadow 0.3s ease;
+      }
+      .data-header {
+        margin-bottom: 20px;
+      }
+      .data-header h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 4px;
+      }
+      .data-header p {
+        font-size: 14px;
+        color: var(--text-light);
+      }
+      .search-bar {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: flex-end;
+      }
+      .search-bar input {
+        width: 240px;
+        padding: 10px 16px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 13px;
+        color: var(--text-light);
+        transition: all 0.3s ease;
+      }
+      .search-bar input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(236, 29, 37, 0.1);
+      }
+      .search-bar input::placeholder {
+        color: #ccc;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+        table-layout: fixed;
+      }
+      table thead {
+        border-bottom: 2px solid var(--border);
+      }
+      table th {
+        padding: 12px 0;
+        text-align: left;
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 13px;
+      }
+      table th:nth-child(1),
+      table td:nth-child(1) {
+        width: 5%;
+        text-align: center;
+      }
+      table th:nth-child(2),
+      table td:nth-child(2) {
+        width: 30%;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        word-break: break-word;
+      }
+      table td {
+        padding: 16px 16px;
+        color: var(--text-light);
+        border-bottom: 1px solid var(--border);
+        transition: background-color 0.2s ease;
+      }
+      table tbody tr {
+        transition: background-color 0.2s ease;
+      }
+      table tbody tr:hover {
+        background-color: #f9fafb;
+      }
+      table tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .badge-success {
+        display: inline-block;
+        padding: 4px 12px;
+        background: #ecfdf5;
+        color: var(--success);
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+      .badge-processed {
+        display: inline-block;
+        padding: 4px 12px;
+        background: #e0f2fe;
+        color: #0284c7;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <div id="sidebar-placeholder"></div>
+
+      <main class="main-wrapper">
+        <div class="topbar">
+          <div class="greeting-section">
+            <div class="user-avatar" id="user-avatar"></div>
+            <div class="greeting-text">
+              <h2 id="greeting-title">
+                Halo, <span class="highlight">User</span> 👋🏻
+              </h2>
+              <p id="greeting-subtitle">Mahasiswa • - • -</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-header">
+          <h1>Dashboard</h1>
+          <p>
+            Selamat datang di pusat informasi dan analitik prestasi mahasiswa.
+          </p>
+        </div>
+
+        <div class="top-section">
+          <div class="stats-grid">
+            <div class="stat-card primary">
+              <div class="stat-card-label">
+                <img src="/assets/totalprestasi.png" alt="" />
+                Total Prestasi
+              </div>
+              <div class="stat-card-value" id="total-prestasi">0</div>
+              <div class="stat-card-footer">
+                Total prestasi yang telah diinputkan
+              </div>
+            </div>
+            <div class="stat-card secondary">
+              <div class="stat-card-label">
+                <img src="/assets/tervalidasi.png" alt="" />
+                Tervalidasi
+              </div>
+              <div class="stat-card-value" id="validated-count">0</div>
+              <div class="stat-card-footer">
+                Total prestasi yang telah tervalidasi
+              </div>
+            </div>
+            <div class="stat-card tertiary">
+              <div class="stat-card-label">
+                <img src="/assets/totalprestasi.png" alt="" />
+                Data Prestasi
+              </div>
+              <div
+                class="stat-card-value"
+                style="font-size: 16px; font-weight: 500"
+              >
+                Anda dapat memasukkan data prestasi baru
+              </div>
+              <div class="stat-card-footer">
+                <a
+                  href="dataprestasi.html?tab=input"
+                  style="width: 100%; text-decoration: none"
+                >
+                  <button
+                    class="btn btn-primary"
+                    style="
+                      width: 100%;
+                      padding: 8px 16px;
+                      font-size: 12px;
+                      margin-top: 8px;
+                    "
+                  >
+                    Tambah Data
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="recommendations-column">
+            <div class="recommendation-card">
+              <div class="recommendation-icon">
+                <img src="/assets/rekomendasiai.png" alt="" />
+              </div>
+              <div class="recommendation-title">Rekomendasi AI</div>
+              <div class="recommendation-text" id="ai-recommendation">
+                Sistem akan memberikan rekomendasi kepada staff berdasarkan
+                prestasi Anda.
+              </div>
+            </div>
+          </div>
+
+          <div class="charts-section">
+            <div class="widget">
+              <div class="widget-header">
+                <div class="widget-icon">
+                  <img src="/assets/perkembanganprestasi.png" alt="" />
+                </div>
+                <div class="widget-title">Perkembangan Prestasi</div>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 200px"
+              >
+                <canvas id="growthChart"></canvas>
+              </div>
+            </div>
+
+            <div class="widget">
+              <div class="widget-header">
+                <div class="widget-icon">
+                  <img src="/assets/distribusiprestasi.png" alt="" />
+                </div>
+                <div class="widget-title">Distribusi Prestasi</div>
+              </div>
+              <div
+                class="chart-container"
+                style="position: relative; height: 200px"
+              >
+                <canvas id="distributionChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="data-section">
+          <div class="data-header">
+            <h3>Data Prestasi</h3>
+            <p>
+              Daftar 5 terbaru prestasi mahasiswa yang telah diinput dan
+              dikelola oleh sistem AURA.
+            </p>
+          </div>
+          <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search" />
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>No</th>
+                <th class="sortable" data-key="event_name">
+                  <div class="th-content">
+                    Nama Kegiatan
+                    <button
+                      class="sort-btn"
+                      style="background-color: transparent; border: none"
+                    >
+                      <span class="sort-icon">▼</span>
+                    </button>
+                  </div>
+                </th>
+                <th class="sortable" data-key="date_issued">
+                  <div class="th-content">
+                    Tanggal
+                    <button
+                      class="sort-btn"
+                      style="background-color: transparent; border: none"
+                    >
+                      <span class="sort-icon">▼</span>
+                    </button>
+                  </div>
+                </th>
+                <th class="sortable" data-key="spu_score">
+                  <div class="th-content">
+                    Skor AI
+                    <button
+                      class="sort-btn"
+                      style="background-color: transparent; border: none"
+                    >
+                      <span class="sort-icon">▼</span>
+                    </button>
+                  </div>
+                </th>
+                <th class="sortable" data-key="status">
+                  <div class="th-content">
+                    Status Validasi
+                    <button
+                      class="sort-btn"
+                      style="background-color: transparent; border: none"
+                    >
+                      <span class="sort-icon">▼</span>
+                    </button>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="events-tbody"></tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <script type="module">
+      import { authAPI } from "../../api/auth.js";
+      import { initUserSidebar } from "../../component/userSidebar.js";
+      import { fetchUserDashboard } from "../../api/users/userDashboard.js";
+      import { notification } from "../../component/notification.js";
+
+      let dashboardEvents = [];
+      let sortState = {
+        column: null,
+        column: "date_issued",
+        direction: "desc", // default
+      };
+
+      function formatDate(value) {
+        if (!value) return "-";
+        return value;
+      }
+
+      function formatStatus(status) {
+        if (status === "validated") return "Tervalidasi";
+        if (status === "processed") return "Diproses";
+        return status || "-";
+      }
+
+      function formatScore(score) {
+        if (score === null || score === undefined) return "0";
+        return Math.round(score * 100) / 1;
+      }
+
+      function updateSortIcons() {
+        const headers = document.querySelectorAll("th.sortable");
+        headers.forEach((th) => {
+          const icon = th.querySelector(".sort-icon");
+          if (icon) {
+            // Universal update: all icons match current direction
+            icon.textContent = sortState.direction === "asc" ? "▲" : "▼";
+
+            // Visual feedback for active column
+            if (th.dataset.key === sortState.column) {
+              icon.style.opacity = "1";
+              th.style.color = "var(--accent)";
+            } else {
+              icon.style.opacity = "0.3";
+              th.style.color = "var(--text-dark)";
+            }
+          }
+        });
+      }
+
+      function handleSort(key) {
+        if (sortState.column === key) {
+          // Toggle direction if clicking same column
+          sortState.direction = sortState.direction === "asc" ? "desc" : "asc";
+        } else {
+          // Reset to desc if clicking new column
+          sortState.column = key;
+          sortState.direction = "desc";
+        }
+
+        updateSortIcons();
+        renderTableEvents();
+      }
+
+      function renderTableEvents() {
+        const tbody = document.getElementById("events-tbody");
+        tbody.innerHTML = "";
+
+        // Clone and sort events
+        let events = [...dashboardEvents];
+
+        if (sortState.column) {
+          events.sort((a, b) => {
+            let valA = a[sortState.column];
+            let valB = b[sortState.column];
+
+            // Handle specific types
+            if (sortState.column === "spu_score") {
+              valA = Number(valA) || 0;
+              valB = Number(valB) || 0;
+            } else {
+              valA = String(valA || "").toLowerCase();
+              valB = String(valB || "").toLowerCase();
+            }
+
+            if (valA < valB) return sortState.direction === "asc" ? -1 : 1;
+            if (valA > valB) return sortState.direction === "asc" ? 1 : -1;
+            return 0;
+          });
+        }
+
+        const displayEvents = events.slice(0, 5);
+
+        if (displayEvents && displayEvents.length > 0) {
+          displayEvents.forEach((event, index) => {
+            const tr = document.createElement("tr");
+
+            const tdNo = document.createElement("td");
+
+            tdNo.textContent = index + 1;
+
+            const tdName = document.createElement("td");
+            tdName.textContent = event.event_name || "-";
+
+            const tdDate = document.createElement("td");
+            tdDate.textContent = formatDate(event.date_issued);
+
+            const tdScore = document.createElement("td");
+            tdScore.textContent = formatScore(event.spu_score);
+
+            const tdStatus = document.createElement("td");
+            const span = document.createElement("span");
+            span.textContent = `${formatStatus(event.status)}`;
+            span.className =
+              event.status === "validated"
+                ? "badge-success"
+                : "badge-processed";
+            tdStatus.appendChild(span);
+
+            tr.appendChild(tdNo);
+            tr.appendChild(tdName);
+            tr.appendChild(tdDate);
+            tr.appendChild(tdScore);
+            tr.appendChild(tdStatus);
+
+            tbody.appendChild(tr);
+          });
+        } else {
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 5;
+          td.textContent = "Belum ada data prestasi";
+          td.style.textAlign = "center";
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+        }
+      }
+
+      function renderDashboard(data) {
+        const { nama, nim, prodi, certificate_stats, events } = data;
+
+        // Store events globally
+        dashboardEvents = events || [];
+
+        const greetingTitle = document.getElementById("greeting-title");
+        const greetingSubtitle = document.getElementById("greeting-subtitle");
+        const avatar = document.getElementById("user-avatar");
+
+        const firstInitial =
+          nama && nama.length > 0 ? nama[0].toUpperCase() : "";
+
+        avatar.textContent = firstInitial;
+
+        greetingTitle.innerHTML = `Halo, <span class="highlight">${nama}</span> 👋🏻`;
+        greetingSubtitle.textContent = `Mahasiswa • ${nim} • ${prodi}`;
+
+        const totalPrestasi =
+          (certificate_stats?.validated_count || 0) +
+          (certificate_stats?.not_validated_count || 0);
+
+        document.getElementById("total-prestasi").textContent = totalPrestasi;
+        document.getElementById("validated-count").textContent =
+          certificate_stats?.validated_count || 0;
+
+        // Initial render
+        renderTableEvents();
+
+        // Initialize Distribution Chart
+        if (
+          data.certificate_stats &&
+          (data.certificate_stats.akademik_count > 0 ||
+            data.certificate_stats.non_akademik_count > 0)
+        ) {
+          const ctxDist = document
+            .getElementById("distributionChart")
+            .getContext("2d");
+          new Chart(ctxDist, {
+            type: "doughnut",
+            data: {
+              labels: ["Akademik", "Non-Akademik"],
+              datasets: [
+                {
+                  data: [
+                    data.certificate_stats.akademik_count,
+                    data.certificate_stats.non_akademik_count,
+                  ],
+                  backgroundColor: ["#ec1d25", "#861015"],
+                  borderWidth: 0,
+                  hoverOffset: 4,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: "bottom",
+                  labels: {
+                    usePointStyle: true,
+                    padding: 20,
+                    font: {
+                      family: "'Poppins', sans-serif",
+                      size: 12,
+                    },
+                  },
+                },
+                tooltip: {
+                  callbacks: {
+                    label: function (context) {
+                      const label = context.label || "";
+                      const value = context.raw || 0;
+                      const total =
+                        context.chart._metasets[context.datasetIndex].total;
+                      const percentage =
+                        Math.round((value / total) * 100) + "%";
+                      return `${label}: ${value} (${percentage})`;
+                    },
+                  },
+                },
+              },
+              cutout: "60%",
+            },
+          });
+        } else {
+          // Show empty state if no data
+          const chartParent =
+            document.getElementById("distributionChart").parentNode;
+          if (chartParent) {
+            chartParent.innerHTML =
+              '<div style="text-align:center; padding-top: 80px; color: #888;">Belum ada data prestasi</div>';
+          }
+        }
+
+        // Initialize Growth Chart (Perkembangan Prestasi)
+        const angkatan = parseInt(data.angkatan);
+        const growthStats = {
+          1: { akademik: 0, non: 0 },
+          2: { akademik: 0, non: 0 },
+          3: { akademik: 0, non: 0 },
+          4: { akademik: 0, non: 0 },
+        };
+
+        if (data.events && Array.isArray(data.events)) {
+          data.events.forEach((event) => {
+            if (event.date_issued) {
+              const year = parseInt(event.date_issued.split("-")[2]); // DD-MM-YYYY
+              const tingkat = year - angkatan + 1;
+
+              if (tingkat >= 1 && tingkat <= 4) {
+                const category = (event.category || "").toLowerCase();
+                if (category === "akademik") {
+                  growthStats[tingkat].akademik++;
+                } else {
+                  growthStats[tingkat].non++;
+                }
+              }
+            }
+          });
+        }
+
+        const growthCtx = document
+          .getElementById("growthChart")
+          .getContext("2d");
+        new Chart(growthCtx, {
+          type: "line",
+          data: {
+            labels: ["Tingkat 1", "Tingkat 2", "Tingkat 3", "Tingkat 4"],
+            datasets: [
+              {
+                label: "Akademik",
+                data: [
+                  growthStats[1].akademik,
+                  growthStats[2].akademik,
+                  growthStats[3].akademik,
+                  growthStats[4].akademik,
+                ],
+                borderColor: "#ec1d25",
+                backgroundColor: "#ec1d25",
+                tension: 0.4,
+              },
+              {
+                label: "Non-Akademik",
+                data: [
+                  growthStats[1].non,
+                  growthStats[2].non,
+                  growthStats[3].non,
+                  growthStats[4].non,
+                ],
+                borderColor: "#861015",
+                backgroundColor: "#861015",
+                tension: 0.4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  usePointStyle: true,
+                  padding: 20,
+                  font: {
+                    family: "'Poppins', sans-serif",
+                    size: 12,
+                  },
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1,
+                },
+              },
+            },
+          },
+        });
+      }
+
+      async function loadDashboard() {
+        try {
+          const data = await fetchUserDashboard();
+          renderDashboard(data);
+        } catch (error) {
+          notification.show("Error", "Terjadi kesalahan saat memuat data", {
+            type: "error",
+          });
+          console.error("Failed to load dashboard:", error);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initUserSidebar();
+
+        // Attach sort listeners
+        document.querySelectorAll("th.sortable").forEach((th) => {
+          th.addEventListener("click", () => {
+            const key = th.dataset.key;
+            if (key) handleSort(key);
+          });
+        });
+
+        loadDashboard();
+      });
+    </script>
+  </body>
+</html>

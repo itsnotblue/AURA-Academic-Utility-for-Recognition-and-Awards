@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <title>AURA - Profil Prestasi - Informasi Beasiswa</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="sidebar.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      /* Root colors and variables */
+      :root {
+        --bg: #ffffff;
+        --panel: #fafafa;
+        --accent: #ec1d25;
+        --accent-dark: #861015;
+        --muted: #a6a8a7;
+        --text-dark: #58585a;
+        --text-light: #667085;
+        --border: #eaecf0;
+        --success: #14ba6d;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text-dark);
+        min-height: 100vh;
+      }
+
+      .page-container {
+        display: flex;
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      .main-wrapper {
+        flex: 1;
+        margin-left: 296px;
+        padding: 32px 40px;
+        background: var(--bg);
+      }
+
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 344px 1fr;
+        gap: 24px;
+        align-items: start;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      /* Profile Column */
+      .profile-column {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* Profile Card */
+      .profile-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+        padding-bottom: 32px;
+      }
+
+      .profile-banner {
+        height: 100px;
+        background: linear-gradient(135deg, #ff8a8a 0%, #ffa5a5 100%);
+        width: 100%;
+      }
+
+      .avatar-wrapper {
+        width: 110px;
+        height: 110px;
+        margin: -55px auto 16px;
+        position: relative;
+        background: #fafafa;
+        border-radius: 50%;
+        padding: 6px;
+        z-index: 2;
+      }
+
+      .avatar {
+        width: 100%;
+        height: 100%;
+        background: #b8dff2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+      }
+
+      .profile-name {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 4px;
+        padding: 0 16px;
+      }
+
+      .profile-role {
+        font-size: 14px;
+        color: var(--text-dark);
+        margin-bottom: 24px;
+      }
+
+      .info-list {
+        padding: 0 24px;
+        text-align: left;
+      }
+
+      .info-divider {
+        height: 1px;
+        background: #d9d9d9;
+        margin: 16px 24px;
+      }
+
+      .info-title {
+        padding: 0 24px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 12px;
+        text-align: left;
+      }
+
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .info-item:last-child {
+        border-bottom: none;
+      }
+
+      .info-label-group {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .info-icon {
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+      }
+
+      .info-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #a6a8a7;
+      }
+
+      .info-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-dark);
+        text-align: right;
+      }
+
+      /* Score Card */
+      .score-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .score-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .score-icon-bg {
+        width: 32px;
+        height: 32px;
+        background: #b20007;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        flex-shrink: 0;
+      }
+
+      .score-title {
+        font-weight: 600;
+        color: #404040;
+        font-size: 16px;
+      }
+
+      .score-number {
+        font-size: 32px;
+        font-weight: 700;
+        color: #404040;
+      }
+
+      .score-desc {
+        font-size: 14px;
+        color: var(--text-light);
+      }
+
+      /* Stats Column */
+      .stats-column {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.08);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-dark);
+        margin-bottom: 16px;
+      }
+
+      /* Top Certs */
+      .top-certs-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .cert-card {
+        background: #ec1d25;
+        border-radius: 12px;
+        padding: 16px 20px;
+        color: white;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .medal-icon {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .medal-inner {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+      }
+
+      .gold {
+        background: #ffcc00;
+      }
+      .silver {
+        background: #8e8e93;
+      }
+      .bronze {
+        background: #b15816;
+      }
+
+      .cert-info {
+        flex: 1;
+      }
+
+      .cert-title {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 4px;
+      }
+
+      .cert-details {
+        font-size: 12px;
+        opacity: 0.9;
+      }
+
+      /* Charts Grid */
+      .charts-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+
+      .chart-box,
+      .recommendation-box {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 20px;
+        height: 100%;
+      }
+
+      .box-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 20px;
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .box-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--accent);
+        border-radius: 50%;
+        padding: 4px;
+      }
+
+      .box-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        filter: brightness(0) invert(1);
+      }
+
+      /* Pie Chart */
+      .pie-chart-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .pie-chart {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: conic-gradient(
+          var(--accent) 0deg 0deg,
+          #d9d9d9 0deg 360deg
+        );
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .pie-legend {
+        display: flex;
+        gap: 20px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      .legend-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      .legend-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-dark);
+      }
+      .legend-value {
+        font-size: 12px;
+        color: var(--text-light);
+      }
+
+      /* Recommendations */
+      .beasiswa-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .beasiswa-card {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .beasiswa-image {
+        background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+        padding: 12px;
+        color: white;
+      }
+
+      .beasiswa-title {
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+
+      .beasiswa-desc {
+        font-size: 11px;
+        opacity: 0.9;
+      }
+
+      .beasiswa-footer {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        background: #fafafa;
+      }
+
+      .beasiswa-link {
+        background: var(--accent);
+        color: white;
+        padding: 4px 10px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      /* Unique Domains */
+      .domains-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .domain-item {
+        padding: 8px 16px;
+        border-radius: 20px;
+        color: white;
+        font-size: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .domain-icon {
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+
+      /* Default domain colors if dynamic ones fail */
+      .domain-item:nth-child(4n + 1) {
+        background: #6155f5;
+      }
+      .domain-item:nth-child(4n + 2) {
+        background: #ff8d28;
+      }
+      .domain-item:nth-child(4n + 3) {
+        background: #ac7f5e;
+      }
+      .domain-item:nth-child(4n + 4) {
+        background: #0088ff;
+      }
+    </style>
+    <style>
+      /* New Grid Layout Styles */
+      :root {
+        --pp-gap: 24px;
+        --pp-radius: 12px;
+      }
+      .dashboard-grid {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: var(--pp-gap);
+        align-items: start;
+      }
+      .pp-column {
+        display: flex;
+        flex-direction: column;
+        gap: var(--pp-gap);
+      }
+      .pp-card {
+        background: white;
+        border-radius: var(--pp-radius);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        padding: 24px;
+        position: relative;
+        overflow: hidden;
+      }
+      .pp-profile-header {
+        text-align: center;
+        margin-bottom: 24px;
+      }
+      .pp-avatar {
+        width: 100px;
+        height: 100px;
+        background: #b8dff2;
+        border-radius: 50%;
+        margin: 0 auto 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+      }
+      .pp-info-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+      }
+      .pp-info-row:last-child {
+        border-bottom: none;
+      }
+      .pp-label {
+        font-weight: 500;
+        color: #888;
+      }
+      .pp-value {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .pp-stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--pp-gap);
+      }
+
+      /* Medal & Certificates */
+      .pp-cert-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: #f9f9f9;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+      .pp-medal-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .pp-cert-text {
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      /* Pie Chart */
+      .pp-pie-container {
+        width: 140px;
+        height: 140px;
+        margin: 0 auto;
+        position: relative;
+      }
+      .pp-pie-fill {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+      .pp-legend {
+        margin-top: 16px;
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+      }
+      .pp-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      /* Skills */
+      .pp-skill-tag {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        color: white;
+        margin: 4px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <!-- Sidebar -->
+      <div id="sidebar-placeholder"></div>
+
+      <!-- Main Content Container -->
+      <!-- Profile Section Removed -->
+
+      <!-- Middle Section Removed -->
+
+      <main class="main-wrapper">
+        <div class="dashboard-grid">
+          <!-- Left Column -->
+          <div class="pp-column">
+            <div class="pp-card">
+              <div class="pp-profile-header">
+                <div class="pp-avatar">
+                  <span class="pp-avatar-text" id="pp-avatar-text"></span>
+                </div>
+                <h2 id="profile-name">Loading...</h2>
+                <p>Mahasiswa</p>
+              </div>
+              <div class="pp-info-list">
+                <div class="pp-info-row">
+                  <span class="pp-label">Nama</span
+                  ><span class="pp-value" id="info-nama">-</span>
+                </div>
+                <div class="pp-info-row">
+                  <span class="pp-label">NIM</span
+                  ><span class="pp-value" id="info-nim">-</span>
+                </div>
+                <div class="pp-info-row">
+                  <span class="pp-label">Prodi</span
+                  ><span class="pp-value" id="info-prodi">-</span>
+                </div>
+                <div class="pp-info-row">
+                  <span class="pp-label">Fakultas</span
+                  ><span class="pp-value" id="info-fakultas">-</span>
+                </div>
+                <div class="pp-info-row">
+                  <span class="pp-label">Angkatan</span
+                  ><span class="pp-value" id="info-angkatan">-</span>
+                </div>
+              </div>
+            </div>
+            <div class="pp-card">
+              <h3>Skor Indeks Prestasi AURA</h3>
+              <div
+                style="
+                  font-size: 36px;
+                  font-weight: bold;
+                  color: #ec1d25;
+                  margin: 10px 0;
+                "
+                id="spu-score"
+              >
+                <span id="spu-score-value">-</span> / 100
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="pp-column">
+            <div class="pp-card">
+              <h3>Prestasi Terbaik</h3>
+              <div
+                id="top-certificates-container"
+                style="margin-top: 16px"
+              ></div>
+            </div>
+
+            <div class="pp-stats-grid">
+              <div class="pp-card">
+                <h3>Distribusi</h3>
+                <div
+                  class="pp-pie-container"
+                  style="width: 100%; height: 200px"
+                >
+                  <canvas id="distributionChart"></canvas>
+                  <div
+                    class="pp-pie-container"
+                    style="width: 100%; height: 250px"
+                  >
+                    <canvas id="domainChart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pp-card">
+                <h3>Rekomendasi Beasiswa</h3>
+                <div
+                  class="beasiswa-list"
+                  style="margin-top: 16px; max-height: none; overflow: visible"
+                >
+                  <!-- Item 1 -->
+                  <div class="beasiswa-card">
+                    <div class="beasiswa-image">
+                      <div class="beasiswa-title">
+                        Beasiswa Prestasi Akademik (BPA)
+                      </div>
+                      <div class="beasiswa-desc">
+                        Mahasiswa dengan prestasi akademik & lomba ilmiah.
+                      </div>
+                    </div>
+                    <div class="beasiswa-footer">
+                      <div class="beasiswa-status">
+                        •Status : Sedang dibuka s/d 24 Desember 2025
+                      </div>
+                      <a
+                        href="#"
+                        class="beasiswa-link"
+                        style="
+                          background: linear-gradient(
+                            135deg,
+                            #ec1d25 0%,
+                            #861015 100%
+                          );
+                        "
+                        >Tautan</a
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Item 2 -->
+                  <div class="beasiswa-card">
+                    <div class="beasiswa-image">
+                      <div class="beasiswa-title">
+                        Beasiswa Talenta Indonesia
+                      </div>
+                      <div class="beasiswa-desc">
+                        Mahasiswa yang sering menang lomba seni, olahraga,
+                        desain.
+                      </div>
+                    </div>
+                    <div class="beasiswa-footer">
+                      <div class="beasiswa-status">
+                        •Status : Sedang dibuka s/d 30 Desember 2025
+                      </div>
+                      <a
+                        href="#"
+                        class="beasiswa-link"
+                        style="
+                          background: linear-gradient(
+                            135deg,
+                            #ec1d25 0%,
+                            #861015 100%
+                          );
+                        "
+                        >Tautan</a
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Item 3 -->
+                  <div class="beasiswa-card">
+                    <div class="beasiswa-image">
+                      <div class="beasiswa-title">
+                        Beasiswa Kemendikbud (KIP Prestasi)
+                      </div>
+                      <div class="beasiswa-desc">
+                        Prestasi tingkat nasional atau internasional.
+                      </div>
+                    </div>
+                    <div class="beasiswa-footer">
+                      <div class="beasiswa-status">
+                        •Status : Sedang dibuka s/d 30 Desember 2025
+                      </div>
+                      <a
+                        href="#"
+                        class="beasiswa-link"
+                        style="
+                          background: linear-gradient(
+                            135deg,
+                            #ec1d25 0%,
+                            #861015 100%
+                          );
+                        "
+                        >Tautan</a
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module">
+      import { initUserSidebar } from "../../component/userSidebar.js";
+      import { authAPI } from "../../api/auth.js";
+      import { notification } from "../../component/notification.js";
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        initUserSidebar();
+        await fetchPrestasiData();
+      });
+
+      async function fetchPrestasiData() {
+        try {
+          const response = await authAPI.apiRequest("/users/prestasi");
+          if (response.success && response.data) {
+            updateUI(response.data);
+          } else {
+            notification.show("Error", "Gagal memuat data prestasi", {
+              type: "error",
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching prestasi data:", error);
+          notification.show("Error", "Terjadi kesalahan saat memuat data", {
+            type: "error",
+          });
+        }
+      }
+
+      function updateUI(data) {
+        // 1. Update Profile Info
+        const profile = data.profile;
+        document.getElementById("pp-avatar-text").textContent =
+          profile.nama && profile.nama.length > 0
+            ? profile.nama[0].toUpperCase()
+            : "";
+        document.getElementById("profile-name").textContent =
+          profile.nama || "-";
+        document.getElementById("info-nama").textContent = profile.nama || "-";
+        document.getElementById("info-nim").textContent = profile.nim || "-";
+        document.getElementById("info-prodi").textContent =
+          "S1 - " + profile.prodi || "-";
+        document.getElementById("info-fakultas").textContent =
+          profile.fakultas || "-";
+        document.getElementById("info-angkatan").textContent =
+          profile.angkatan || "-";
+
+        // 2. Update Top Certificates
+        const topCertificates = data.top_certificates;
+        const topCertContainer = document.getElementById(
+          "top-certificates-container"
+        );
+        topCertContainer.innerHTML = ""; // Clear existing
+
+        topCertificates.forEach((cert, index) => {
+          // Limit to 3 top certificates as per design
+          if (index > 2) return;
+
+          const medalIcons = [
+            '<img src="/assets/no1.png" alt="Peringkat Pertama" />',
+            '<img src="/assets/no2.png" alt="Peringkat Kedua" />',
+            '<img src="/assets/no3.png" alt="Peringkat Ketiga" />',
+          ];
+
+          const item = document.createElement("div");
+          item.className = `pp-cert-item medal-${index + 1}`;
+          item.innerHTML = `
+             <div class="pp-medal-icon">${medalIcons[index]}</div>
+             <div class="pp-cert-text">${cert.rank_raw} ${cert.event_name}</div>
+          `;
+          topCertContainer.appendChild(item);
+        });
+
+        // 3. Update Statistics (Chart.js)
+        const stats = data.statistics;
+
+        // Destroy existing chart if it exists
+        if (window.distributionChart instanceof Chart) {
+          window.distributionChart.destroy();
+        }
+
+        const ctx = document
+          .getElementById("distributionChart")
+          .getContext("2d");
+
+        window.distributionChart = new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Akademik", "Non-Akademik"],
+            datasets: [
+              {
+                data: [stats.akademik_count, stats.non_akademik_count],
+                backgroundColor: ["#ec1d25", "#861015"],
+                borderWidth: 1,
+                hoverOffset: 4,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "right",
+                labels: {
+                  usePointStyle: true,
+                  padding: 20,
+                  font: {
+                    family: "'Poppins', sans-serif",
+                    size: 12,
+                  },
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const label = context.label || "";
+                    const value = context.raw || 0;
+                    const total =
+                      context.chart._metasets[context.datasetIndex].total;
+                    const percentage = Math.round((value / total) * 100) + "%";
+                    return `${label}: ${value} (${percentage})`;
+                  },
+                },
+              },
+            },
+            cutout: "60%",
+          },
+        });
+
+        // 4. Update Unique Domains (Pie Chart)
+        const domainLabels = Object.keys(stats.domain_counts);
+        const domainData = Object.values(stats.domain_counts);
+
+        // Colors for skills (cycling)
+        const skillColors = [
+          "#6155f5",
+          "#ff8d28",
+          "#ac7f5e",
+          "#0088ff",
+          "#ec1d25",
+          "#14ba6d",
+        ];
+
+        // Destroy existing chart if it exists
+        if (window.domainChart instanceof Chart) {
+          window.domainChart.destroy();
+        }
+
+        const ctxDomain = document
+          .getElementById("domainChart")
+          .getContext("2d");
+        window.domainChart = new Chart(ctxDomain, {
+          type: "pie",
+          data: {
+            labels: domainLabels,
+            datasets: [
+              {
+                data: domainData,
+                backgroundColor: skillColors,
+                borderWidth: 1,
+                borderColor: "#ffffff",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "right",
+                labels: {
+                  usePointStyle: true,
+                  boxWidth: 8,
+                  font: {
+                    family: "'Poppins', sans-serif",
+                    size: 11,
+                  },
+                },
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const label = context.label || "";
+                    const value = context.raw || 0;
+                    const total =
+                      context.chart._metasets[context.datasetIndex].total;
+                    const percentage = Math.round((value / total) * 100) + "%";
+                    return `${label}: ${value} (${percentage})`;
+                  },
+                },
+              },
+            },
+          },
+        });
+
+        // 5. Update SPU Score (Top Certificates average or specific field if available)
+        document.getElementById("spu-score-value").textContent =
+          stats.avg_spu.toFixed(2);
+      }
+    </script>
+    <script src="sidebar.js"></script>
+  </body>
+</html>
